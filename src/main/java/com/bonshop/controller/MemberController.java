@@ -29,6 +29,9 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 
+	
+	/*로그인 기능*/
+	
 	//로그인 페이지 입력 받기 전
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	   public String login() {
@@ -91,6 +94,19 @@ public class MemberController {
 	        }
 		}
 		
+		
+		/* 로그아웃 */
+	    @PostMapping("/logout")
+	    public String logout(HttpSession session) {
+	        session.invalidate(); // 세션 제거
+	        return "redirect:/";  // 홈 페이지로 리다이렉트
+	    }
+	
+		
+		
+		
+		/*회원가입 코드*/
+		
 		//회원가입 페이지
 		@RequestMapping(value="/sign", method=RequestMethod.GET)
 		public void sign() {
@@ -144,10 +160,22 @@ public class MemberController {
 	    	
 	    }//member_idcheck()
 		
-		/*
-		@RequestMapping(value="/sign", method=RequestMethod.POST)
-		public ModelAndView sign() {
-		}*/
 		
-	
+		
+		
+		/*마이 페이지*/
+		@RequestMapping(value="/myPage")
+		public void myPage() {}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 }

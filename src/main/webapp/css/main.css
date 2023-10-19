@@ -8,19 +8,20 @@ header {
   height: 80px;
   background-color: #333;
   padding: 10px;
-  display: flex;
-  align-items: center;
-}
-
-.logo {
-  flex: 0 0 auto;
+  position: relative;
 }
 
 nav {
-  flex: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   justify-content: center;
+  color: white;
 }
+
+
 
 nav ul {
   list-style: none;
@@ -57,10 +58,30 @@ footer {
 
 /* 메인페이지(index.jsp) css */
 .login {
-	margin-top: 50px;
-	color: white;
+    position: absolute;
+    bottom: 0px;
+    right: 10px; /* 원하는 만큼 조절해서 오른쪽 여백을 설정할 수 있음 */
+    color: white;
+    display: flex;
+    align-items: center; /* 이게 없으면 000님 안녕하세요 글자만 붕뜸 */
 }
-.login a {
-	text-decoration: none;
-	color: inherit;
+
+
+.login input[type="submit"] {
+    text-decoration: none;
+    background-color: #333;
+    color: inherit;
+    border: none;         /* 기본 버튼 테두리 제거 */
+    padding: 5px 10px;   /* 버튼 내부 여백 추가 */
+    margin-right: 5px;   /* 오른쪽 여백 추가 */
+    cursor: pointer;     /* 마우스 커서를 손가락 모양으로 변경 */
+    font-size: 15px;
+}
+
+.login input:hover{
+	color:orange;
+}
+
+.login span {
+    margin: 0 10px;      /* 양쪽에 여백 추가 */
 }
