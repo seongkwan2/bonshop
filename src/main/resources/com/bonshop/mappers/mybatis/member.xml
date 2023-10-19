@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="member">
+
+<!-- 아이디를 기준으로 회원정보를 가져옴 -->
+<select id="getMemberInfo" resultType="member">
+	select * from bs_member where m_id = #{m_id}
+</select>
+
+<!-- 회원가입 (계정추가) -->
+<insert id="addMember">
+	insert into bs_member values
+	(bs_member_seq.nextval, #{m_id}, #{m_pwd}, #{m_name}, #{m_birth}, #{m_email}, #{m_phone}, #{m_tel}, 1, sysdate)
+</insert>
+
+</mapper>

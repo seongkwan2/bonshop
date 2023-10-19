@@ -1,0 +1,48 @@
+@charset "UTF-8";
+h1.guideTitle { margin:30px 0 35px; display:inline-block; width:100%; border-bottom:2px solid #222222; line-height:42px; padding:0 0 12px 4px; color:#606060; font-size:30px; font-weight:500; letter-spacing:-1.5px; }
+table.guideTable { width:100%; }
+.l-ct { display:block; width:1200px; margin:0 auto; }
+table.guideTable thead th { font-size:18px; font-weight:500; line-height:60px; background-color:#f1f4f7; border-top:1px solid #dadada; border-bottom:1px solid #dadada; }
+table.guideTable tbody td { font-size:15px; line-height:26px; padding:20px 0; }
+table.guideTable thead th,
+table.guideTable tbody td,
+table.guideTable tbody td { color:#808080; padding-left:15px; text-align:left; word-break:keep-all; }
+table.guideTable tbody td { border-left:1px dashed #dadada; }
+table.guideTable tbody td > p { word-break:keep-all; }
+table.guideTable tbody td span.point { font-weight:600; }
+table.guideTable tbody td:nth-child(1) { border-left:none; }
+ul.guideInfo { display:table; width:100%; }
+ul.guideInfo > li { display:table-row; }
+ul.guideInfo > li:not(:nth-child(1)) > span { border-top:1px dashed #dadada; }
+ul.guideInfo > li > span { display:table-cell; font-size:18px; font-weight:500; line-height:26px; padding:13px 0; }
+ul.guideInfo span.infoSubject { color:#db252f; width:120px; border-right:1px dashed #dadada; }
+ul.guideInfo span.infoContent { color:#808080; padding-left:25px !important; }
+.guideStep {}
+.guideStep > .stepSubject { color:#606060; font-size:18px; font-weight:600; letter-spacing:-1px; }
+.guideStep > .stepSubject > span { color:#db252f; }
+.guideStep > ul { display:inline-block; margin:25px 0; }
+.guideStep > ul > li { display:inline-block; width:254px; height:214px; vertical-align:top; background-color:#fff; border:1px solid #dadada; border-radius:5px; text-align:center; }
+.guideStep > ul > li:not(:nth-child(1)) { margin-left:57px; }
+.guideStep > ul > li  > i { font-size:40px; color:#404040; display:block; margin:15px auto 0; }
+.guideStep > ul > li  > p { font-size:16px; font-weight:500; letter-spacing:-1px; color:#404040; line-height:30px; margin-top:5px; }
+.guideRefund { }
+.guideRefund > p.subject { color:#404040; font-size:18px; font-weight:600; letter-spacing:-1px; margin-bottom:12px; }
+.guideRefund > .equipment-content { color:#808080; border:1px solid #dadada; margin-bottom:20px; padding:10px; }
+.equipment-content { counter-reset: section; display:block; clear:both; width:100%; }
+.equipment-content > p { color:#808080; font-size:18px; line-height:36px; margin-left:20px; }
+.equipment-content > p:before { counter-increment: section; content:counter(section)"."; margin-right:3px; margin-left:-15px; }
+
+.equipment-content ul {
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+}
+
+.equipment-content ul li {
+	float: left;
+	width: 300px;
+	height: 30px;
+	line-height: 30px;
+	padding-left: 20px;
+	border: 1px solid #dadada;
+}

@@ -1,0 +1,56 @@
+/* CSS 스타일링 */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  height: 80px;
+  background-color: #333;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  flex: 0 0 auto;
+}
+
+nav {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+nav ul {
+  list-style: none;
+  font-family: verdana, Geneva, sans-serif;
+}
+
+nav ul li {
+  display: inline-block;
+  margin: 0px 5px;
+}
+
+nav a {
+  display: flex;
+  height: 20px;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: 100;
+  text-decoration: none;
+  color: #fff;
+  text-align: center;
+}
+
+nav a:hover {
+  color: orange;
+  transition: all 0.25s;
+}
+
+footer {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+}

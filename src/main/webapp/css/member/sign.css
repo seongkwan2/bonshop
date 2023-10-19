@@ -1,0 +1,160 @@
+@charset "UTF-8";
+
+#wrap {
+	width: 500px;
+	height: 850px;
+	background-color: white;
+	border-radius: 10px;
+	border: 1px solid #dcdcdc;
+	margin: 0 auto;
+	margin-top: 10px;
+	margin-bottom: 50px;
+}
+
+#logo {
+	font-family: 'Inter', sans-serif;
+	width: 400px;
+	height: 100px;
+	font-size: 30px;
+	font-weight: bold;
+	text-align: center;
+	margin: 0 auto;
+	margin-top: 50px;
+	letter-spacing: 8px;
+}
+
+#logo>hr {
+	width: 300px;
+	color: #dcdcdc;
+}
+
+#form1 #form2 #form3 {
+	border-radius: 10px;
+}
+
+#form1 {
+	width: 500px;
+	height: 850px;
+	margin: 0 auto;
+}
+
+/*입력 폼의 크기, 위치*/
+#idform,#pwdform, #nameform, #birthform, #phoneform, #emailform,
+	#genderform, #telform, #pwdCKform{
+	width: 400px;
+	height: 50px;
+	margin: 0 auto;
+	margin-top: 20px;
+}
+
+
+/*중복확인 버튼*/
+#checkid{
+	width: 400px;
+	height: 50px;
+	margin: 0 auto;
+	margin-top: 30px;
+}
+
+/*중복확인 버튼 내부 글씨 */
+#ckidbtn {
+	margin: 0 auto;
+	width: 400px;
+	height: 50px;
+	text-align: center;
+	font-size: 20px;
+	margin-top: 20px;
+	letter-spacing: 10px;
+	border-radius: 10px;
+	cursor: pointer;
+	background-color: #dcdcdc;
+	border: none;
+	color: #464646;
+}
+
+input:focus {
+	outline: 2px solid #dcdcdc;
+}
+
+#m_id, #m_pwd, #m_name, #m_birth, #m_phone, #m_email, #m_gender, #pwd_ck
+	{
+	background-image: url('/imgs/member/people.png');
+	background-repeat: no-repeat;
+	background-size: 30px 30px;
+	background-position: 20px center;
+	border-radius: 10px;
+	border: 1px solid #dcdcdc;
+	text-indent: 3em;
+	width: 400px;
+	height: 50px;
+	font-size: 20px;
+	margin-top: 20px;
+}
+
+#m_pwd, #pwd_ck {
+	background-image: url('/imgs/member/lock_icon.png');
+}
+
+#m_name {
+	background-image: url('/imgs/member/people.png');
+}
+
+#m_birth {
+	background-image: url('/imgs/member/calender.png');
+}
+
+#m_phone {
+	background-image: url('/imgs/member/phone.png');
+}
+
+#m_email {
+	background-image: url('/imgs/member/email.png');
+}
+
+#form3 {
+	margin: 0 auto;
+	text-align: center;
+	margin-top: 20px;
+	width: 400px;
+	height: 50px;
+}
+
+#btn1 {
+	margin: 0 auto;
+	width: 400px;
+	height: 60px;
+	text-align: center;
+	font-size: 20px;
+	letter-spacing: 10px;
+	border-radius: 10px;
+	margin-top: 60px;
+	margin-bottom: 30px;
+	cursor: pointer;
+	background-color: #dcdcdc;
+	border: none;
+	color: #464646;
+}
+
+
+
+#telform>#m_tel {
+	margin: 0 auto;
+	width: 400px;
+	height: 50px;
+	border-radius: 10px;
+	border: 1px solid #dcdcdc;
+	margin-top: 20px;
+	font-size: 20px;
+	cursor: pointer;
+	color: #969696;
+}
+
+#telform>#m_tel>option {
+	text-align: center;
+	cursor: pointer;
+}
+
+.select {
+	background: url('/imgs/member/tel.png') calc(100% - 350px) center no-repeat;
+	background-size: 30px;
+}

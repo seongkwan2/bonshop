@@ -1,0 +1,79 @@
+/* 이 부분이 없으면 스크롤 바 두 개가 생성된다 */
+
+body {
+    overflow: hidden;
+    font-family: 'Roboto Slab', serif;
+}
+
+/* Scroll down */
+
+#container{
+    width:100%;
+    height:100vh; 
+    overflow: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: y mandatory;
+}
+
+/*스크롤 조절*/
+.list_one, .list_two, .list_three, .list_four{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    scroll-snap-align: center;
+}
+
+/*각각의 화면의 색상 표현*/
+.list_one{
+    background-color: #6887A1;
+    background-size: cover;
+    background-attachment: fixed; 
+    background-position: center; 
+}
+
+.list_two{
+    background-color: #9d949e;
+    background-size: cover;
+    background-attachment: fixed; 
+    background-position: center; 
+}
+
+/*프로젝트 부분의 css*/
+.list_three{
+    background-color: #4e5a56;
+    background-size: cover;
+    background-attachment: fixed; 
+    background-position: center; 
+}
+
+.list_three .three {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;  /* 추가: 세로 방향으로 요소들을 배열합니다. */
+}
+
+.list_four{
+    background-color: #e0d8cc;
+    background-size: cover;
+    background-attachment: fixed; 
+    background-position: center; 
+}
+
+
+
+
+.fourImg{
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; 
+}
+
+
+
+
+
+
