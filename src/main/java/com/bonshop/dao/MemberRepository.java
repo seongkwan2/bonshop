@@ -19,8 +19,8 @@ public interface MemberRepository extends JpaRepository<MemberVO, String> {
 	
 	@Modifying //회원 정보 수정
 	@Query("update MemberVO m set m.m_pwd=?1, m.m_name=?2, m.m_birth=?3, m.m_email=?4, m.m_phone=?5,"
-			+" m.m_zipCode=?6, m.m_zipCode2=?7, m.m_addr=?8, m.m_addr2=?9, m.m_tel=?10, m.m_state=?11 where m.m_id=?12")
-	public void updateMember(String pwd,String name,String birth,String email,String phone,String zipCode,String zipCode2,String addr,
-			String addr2,String tel,String state,String id);
+			+" m.m_zipCode=?6, m.m_addr=?7, m.m_addr2=?8, m.m_tel=?9, m.m_state=?10 where m.m_id=?11")
+	public void updateMember(String m_pwd, String m_name, String m_birth, String m_email, String m_phone,
+			String m_zipCode, String m_addr, String m_addr2, String m_tel, String m_state, String m_id);
 	
 }

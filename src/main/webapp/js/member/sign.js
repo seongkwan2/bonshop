@@ -25,23 +25,23 @@ function joinCheck(){
 		  $("#m_pwd").val("").focus();
 		  return false;
 	  }
-	  if($.trim($("#pwd_ck").val())== ""){
+	  if($.trim($("#m_pwd2").val())== ""){
 		  alert("비밀번호를 입력하세요!");
-		  $("#pwd_ck").val("").focus();
+		  $("#m_pwd2").val("").focus();
 		  return false;
 	  }
 	  
 	  //비밀번호 검증
-	  if(!pwdType.test(pwd_ck.value)){
+	  if(!pwdType.test(m_pwd2.value)){
 		  alert("비밀번호는 영문자+숫자+특수문자 조합 \n 8이상~12자리 이하로만 사용해야합니다. ");
-		  $("#pwd_ck").val("").focus();
+		  $("#m_pwd2").val("").focus();
 		  return false;
 	  }
 	  
 	  //비밀번호 일치 테스트
-	 if(m_pwd.value !== pwd_ck.value ){
+	 if(m_pwd.value !== m_pwd2.value ){
 		 alert("비밀번호가 일치하지 않습니다!");
-		  $("#pwd_ck").val("").focus();
+		  $("#m_pwd2").val("").focus();
 		  return false;
 	 }
 	  
@@ -138,16 +138,36 @@ function checkid(){
       $("#m_id").val('').focus();
       return false;
    };
-
+   
+   	/* ajax 통신 시 403 forbidden 에러 발생 해결법)	
+	   에러 원인=> csrf(Cross-site request forgery)의 token이 누락으로 발생한다고 한다.
+	   
+	   member_Join.jsp에 head 태그 내에 csrf meta tag를 추가해준다
+       <meta name="_csrf_header" content="${_csrf.headerName}">
+       <meta name="_csrf" content="${_csrf.token}">
+       
+        var header = $("meta[name='_csrf_header']").attr('content');
+        var token = $("meta[name='_csrf']").attr('content');
+        
+        beforeSend: function(xhr){
+         xhr.setRequestHeader(header, token);
+        },
+        코드를 추가한다. 그러면 403 접근 금지 에러가 해결된다.
+	*/
+	
+	
+	var header = $("meta[name='_csrf_header']").attr('content');
+    var token = $("meta[name='_csrf']").attr('content');
    
    //아이디 중복확인
     $.ajax({//$는 jQuery란 뜻. $.ajax 뜻은 jQuery 내의 아작스 실행
         type:"POST",//데이터를 서버로 보내는 방법
        //url:"./member/member_idcheck.jsp",    
         url:"/member/member_idcheck", //url 패턴 매핑주소 경로
-        data: {"m_id":$m_id,  //m_id의 데이터를 m_id라는 변수(키)에 담아서 보냄
-        	"_csrf": $("#_csrf").val()  // CSRF 토큰 값 추가
-        	},
+        beforeSend: function(xhr){
+         xhr.setRequestHeader(header, token);
+        },
+        data: {"m_id":$m_id},  //m_id의 데이터를 m_id라는 변수(키)에 담아서 보냄
         dataType:"text",//서버의 실행된 결과값을 사용자로 받아오는 자료형
         success: function (data) {//success는 아작스로 받아오는것이 성공했을경우
            //서버 데이터를 data변수에 저장
@@ -174,5 +194,67 @@ function checkid(){
             alert("data error");
          }
       });//$.ajax
- /* end */   
+      
+      
+      
+
+
+
+//수정창 유효성 검증
+function edit_check(){
+	$m_pwd=$.trim($("#m_pwd").val());
+	$m_pwd2=$.trim($("#m_pwdck").val());
+	if($m_pwd == ""){
+		alert("비번을 입력하세요!");
+		$("#m_pwd").val("").focus();
+		return false;
+	}
+	if($m_pwd2 == ""){
+		alert("비번확인을 입력하세요!");
+		$("#m_pwd2").val("").focus();
+		return false;
+	}
+	if($m_pwd != $m_pwd2){
+		alert("비번이 다릅니다!");
+		$("#m_pwd").val("");//비번 입력박스를 초기화
+		$("#m_pwd2").val("");
+		$("#m_pwd").focus();
+		return false;
+	}
+	if($.trim($("#m_name").val())==""){
+		alert("회원이름을 입력하세요!");
+		$("#m_name").val("").focus();
+		return false;
+	}
+	if($.trim($("#m_zipCode").val())==""){
+		alert("우편번호를 입력하세요!");		
+		return false;
+	}
+
+	if($.trim($("#m_addr").val())==""){
+		alert("주소를 입력하세요!");		
+		return false;
+	}
+	
+	if($.trim($("#m_addr2").val())==""){
+		alert("나머지 주소를 입력하세요!");
+		$("#m_addr2").val("").focus();
+		return false;
+	}
+
+	if($.trim($("#m_phone").val())==""){
+		alert("전화번호를 입력하세요!");
+		$("#m_phone").val("").focus();
+		return false;
+	}
+	if($.trim($("#mail_id").val())==""){
+		alert("전자우편을 입력하세요!");
+		$("#mail_id").val("").focus();
+		return false;
+	}
+	if($.trim($("#mail_domain").val())==""){
+		alert("전자우편을 입력하세요!");		
+		return false;
+	}
+}//edit_check()
 }

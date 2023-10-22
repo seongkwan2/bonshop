@@ -31,8 +31,8 @@ public class ZipCodeVO {//우편번호,주소등 저장할 엔티티빈 클래�
 
 	@Id //구분키(식별키) 즉 유일키로 사용될 기본키 컬럼 즉 primary key
 	@GeneratedValue(
-			strategy=GenerationType.SEQUENCE, //사용할 전략을 시퀀스로  선택
-			generator="zip_seq_gename" //식별자 생성기를 설정해놓은 bno_seq3_gename 시퀀스 제너레이터 이름 으로 설정
+			strategy=GenerationType.SEQUENCE, //사용할 전략을 시퀀스로 선택
+			generator="zip_seq_gename" //식별자 생성기를 설정해놓은 시퀀스 제너레이터 이름으로 설정
 			)
 	private int no;
 	

@@ -37,7 +37,6 @@ public class MemberVO {//회원관리 엔티티빈 클래스
 	private String m_email;//이메일
 	private String m_phone;//폰번호
 	private String m_zipCode;//우편번호
-	private String m_zipCode2;//우편번호
 	private String m_addr;//주소
 	private String m_addr2;//나머지 주소
 	private String m_tel;//나머지 주소

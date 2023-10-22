@@ -74,7 +74,6 @@ public class MemberDAOImpl implements MemberDAO {
 	public void updateMember(MemberVO m) {
 		System.out.println(" \n ==============================> jpa로 회원정보 수정하기");
 		this.memberRepo.updateMember(m.getM_pwd(), m.getM_name(), m.getM_birth(), m.getM_email(), m.getM_phone(),
-				m.getM_zipCode(), m.getM_zipCode2(), m.getM_addr(), m.getM_addr2(),
-				m.getM_tel(), m.getM_state(), m.getM_id());
+				m.getM_zipCode(), m.getM_addr(), m.getM_addr2(),m.getM_tel(), m.getM_state(), m.getM_id());
 	}//회원정보 수정
 }

@@ -5,6 +5,7 @@ commit;     --항상 수정후 커밋하기
 --ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 --삭제
 DROP TABLE bs_member;
+DROP TABLE bs_member_roles;
 DROP TABLE bs_address;
 DROP TABLE bs_category;
 DROP TABLE bs_item;
@@ -25,6 +26,9 @@ DROP SEQUENCE bs_order_seq;
 DROP SEQUENCE bs_order_cash_seq;
 
 --ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+select * from bs_member_roles;
+SELECT * FROM bs_member;
+
 
 --회원 테이블 >>JPA로 만들거라 안만들어도 됨
 create table bs_member(

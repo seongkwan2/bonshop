@@ -18,17 +18,17 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public MemberVO idCheck(String id) {		
 		return this.memberDao.idCheck(id);
-	}
+	}//아이디 중복확인
 
 	@Override
 	public void insertMember(MemberVO m) {
 		this.memberDao.insertMember(m);		
-	}
+	}//회원 저장
 
 	@Override
 	public List<ZipCodeVO> zipFind(String dong) {		
 		return this.memberDao.zipFind(dong);
-	}
+	}//주소 찾기
 
 	@Override
 	public MemberVO pwdMember(MemberVO m) {

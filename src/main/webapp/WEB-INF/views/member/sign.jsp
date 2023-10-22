@@ -3,7 +3,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
+<%--ajax 통신 시 403 forbidden 에러 발생 해결법 => csrf(Cross-site request forgery)의 token이 누락으로 발생하기 때문에 
+아래 코드 2개 추가 --%>
+<meta name="_csrf_header" content="${_csrf.headerName}">
+<meta name="_csrf" content="${_csrf.token}">
+
 <title>bonshop : 회원가입 페이지</title>
 <script src="/js/jquery.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/member/sign.css">
@@ -23,7 +29,7 @@
 <%@ include file="../include/header.jsp" %>
 
 <div id="bigbox">
-<form action="/member/sign" method="post">
+<form name="m" method="post">
 	<div id="logo">
 		<hr>
 		BONSHOP
@@ -44,8 +50,8 @@
 				<span class="pwdck"></span>
 			</div>
 			<div id="pwdCKform">
-				<input type="password" id="pwd_ck" name="pwd_ck" placeholder="비밀번호 확인">
-				<span class="pwd_ck"></span>
+				<input type="password" id="m_pwd2" name="m_pwd2" placeholder="비밀번호 확인">
+				<span class="m_pwd2"></span>
 			</div>
 		
 		<!-- 개인정보 -->
@@ -77,19 +83,52 @@
 		    		<option value="알뜰">알뜰폰</option>
 				</select>
 			</div>
+			
+			<!-- 주소검색  -->
+			<div id="address"> <!-- 버튼 -->
+				<input id="addrbtn" type="button" value="주소검색" onclick="post_check();"/>
+			</div>
+			<div id="zipform">
+				<input name="m_zipCode" id="m_zipCode" placeholder="우편번호" readonly /> <%-- readonly 속성은 읽기만 가능. --%>
+			</div>
+			<div id="zipform">
+				<input name="m_addr" id="m_addr" placeholder="주소" readonly />
+			</div>
+			
+			<div id="zipform">
+				<input name="m_addr2" id="m_addr2" placeholder="나머지 주소"/>
+			</div>
+			
+			
+			
+
 			<!-- 유효성 검증 창 -->
 			<span id="text"></span>
 			<!-- 버튼 -->
 			<div id="form3">
-			<!-- security에서 ajax를 사용하기 위한 토큰 -->
-				<input type="hidden" id="_csrf" name="_csrf" value="${_csrf.token}"/>
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+			      <%--post방식으로 데이터를 전송할 때에는 스프링 시큐리티에서는 CSRF 토큰을 같이 보내야 한다. --%>
 			
-				<strong><button type="button" value="Y" name="Y" id="btn1" onclick=" return joinCheck()" >가입하기</button></strong>
+				<strong>
+				<button type="button" value="Y" name="Y" id="sign" onclick=" return joinCheck()" >가입하기</button>
+				</strong>
 			</div>
 		</div><%--form1 end --%>
 	</div> <%-- wrap end --%>
 </form>
 </div>
+
+<script>
+//우편검색 창
+function post_check(){
+	$url="zip_find";//매핑주소
+	window.open($url,"우편검색","width=415px,height=190px,"
+			+"scrollbars=yes");
+	//폭이 415 픽셀이고,높이가 190 픽셀,스크롤바가 생성되는
+	//우편번호 검색 공지창을 띄운다.
+}
+
+</script>
 
 <script>
 //폼을 보내는 함수
@@ -114,7 +153,7 @@ function sendForm(){
 	    data:JSON.stringify(formData),
 	    contentType: "application/json",
 	    beforeSend: function(xhr) {	//토큰만 따로 보내는 방식을 선호
-	        xhr.setRequestHeader("_csrf", $("#_csrf").val());  // CSRF 토큰 설정
+	    	xhr.setRequestHeader(csrfHeader, csrfToken);
 	    },
 	    success: function(map) {
 	        console.log("Response from server:", map);

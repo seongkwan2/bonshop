@@ -39,11 +39,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		//HttpSecurity는 웹과 관련된 다양한 보안설정을 걸어 줄 수 있다.
 
 		log.info("security config ......");
-		
+		//permitAll()은 모든 사용자가 접근할 수 있다는 것을 의미
 		http.authorizeRequests().antMatchers("/guest/**").permitAll();//authorizeRequests()는 시큐리티 처리에서 HttpServletRequest에 해당한다.
-        /* antMatchers()에서는 특정한 경로를 지정한다. permitAll()은 모든 사용자가 접근할 수 있다는 것을 의미한다. */
 		http.authorizeRequests().antMatchers("/manager/**").hasRole("MANAGER"); //hasRole()은 특정권한을 가진 사람만이 접근가능
 		http.authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN");
+		http.authorizeRequests().antMatchers("/member/sign").permitAll();//authorizeRequests()는 시큐리티 처리에서 HttpServletRequest에 해당한다.
 		
 		//로그인 페이지
 		http.formLogin().loginPage("/login");
