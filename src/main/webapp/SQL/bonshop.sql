@@ -26,9 +26,8 @@ DROP SEQUENCE bs_order_cash_seq;
 
 --ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
---회원 테이블
+--회원 테이블 >>JPA로 만들거라 안만들어도 됨
 create table bs_member(
-    m_num NUMBER,
     m_id VARCHAR2(30) PRIMARY KEY, 
     m_pwd VARCHAR2(300),        
     m_name VARCHAR2(30),

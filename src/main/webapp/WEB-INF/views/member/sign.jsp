@@ -23,7 +23,7 @@
 <%@ include file="../include/header.jsp" %>
 
 <div id="bigbox">
-<form method="post">
+<form action="/member/sign" method="post">
 	<div id="logo">
 		<hr>
 		BONSHOP
@@ -81,6 +81,9 @@
 			<span id="text"></span>
 			<!-- 버튼 -->
 			<div id="form3">
+			<!-- security에서 ajax를 사용하기 위한 토큰 -->
+				<input type="hidden" id="_csrf" name="_csrf" value="${_csrf.token}"/>
+			
 				<strong><button type="button" value="Y" name="Y" id="btn1" onclick=" return joinCheck()" >가입하기</button></strong>
 			</div>
 		</div><%--form1 end --%>
@@ -91,7 +94,7 @@
 <script>
 //폼을 보내는 함수
 function sendForm(){
-	var formData = {
+	var formData = {	//여기에 토큰을 넣으면 안됨
 			"m_id": $("#m_id").val(),
 	        "m_pwd": $("#m_pwd").val(),
 	        "m_name": $("#m_name").val(),
@@ -101,11 +104,18 @@ function sendForm(){
 	        "m_tel": $("#m_tel").val()
 	}; //formData
 	
+	// CSRF 토큰을 가져와서 헤더에 추가
+    var csrfToken = $("meta[name='_csrf']").attr("content");
+    var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+	
 	$.ajax({
 	    url:"/member/sign",
 	    method:"POST",
 	    data:JSON.stringify(formData),
 	    contentType: "application/json",
+	    beforeSend: function(xhr) {	//토큰만 따로 보내는 방식을 선호
+	        xhr.setRequestHeader("_csrf", $("#_csrf").val());  // CSRF 토큰 설정
+	    },
 	    success: function(map) {
 	        console.log("Response from server:", map);
 	        if(map.status === "true") {

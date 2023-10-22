@@ -22,7 +22,7 @@
 <%-- include : main --%>
 <%@ include file="../include/header.jsp" %>
 
-<form method="post" onsubmit="return logCk();">
+<form action="/member/login" method="post" onsubmit="return logCk();">
 	<div id="wrap">
 		<div id="all_form">
 			<div id="logo">

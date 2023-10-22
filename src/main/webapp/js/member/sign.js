@@ -145,7 +145,9 @@ function checkid(){
         type:"POST",//데이터를 서버로 보내는 방법
        //url:"./member/member_idcheck.jsp",    
         url:"/member/member_idcheck", //url 패턴 매핑주소 경로
-        data: {"m_id":$m_id},  //m_id의 데이터를 m_id라는 변수(키)에 담아서 보냄
+        data: {"m_id":$m_id,  //m_id의 데이터를 m_id라는 변수(키)에 담아서 보냄
+        	"_csrf": $("#_csrf").val()  // CSRF 토큰 값 추가
+        	},
         dataType:"text",//서버의 실행된 결과값을 사용자로 받아오는 자료형
         success: function (data) {//success는 아작스로 받아오는것이 성공했을경우
            //서버 데이터를 data변수에 저장
