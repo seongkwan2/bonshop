@@ -1,20 +1,4 @@
 @charset "UTF-8";
-
-input[type="checkbox"] {
-	width: 1rem;
-	height: 1rem;
-	border-radius: 50%;
-	border: 1px solid #999;
-	appearance: none;
-	cursor: pointer;
-	transition: background 0.2s;
-}
-
-input[type="checkbox"]:checked {
-	background-color: gray;
-	border: none;
-}
-
 #wrap {
 	width: 500px;
 	height: 700px;
@@ -58,7 +42,7 @@ input:focus {
 	text-align: center;
 }
 
-#m_id, #m_pwd, #m_name, #m_birth, #m_phone, #m_email, #m_gender {
+#username, #password, #m_name, #m_birth, #m_phone, #m_email, #m_gender {
 	background-image: url('../../imgs/member/people.png');
 	background-repeat: no-repeat;
 	background-size: 30px 30px;
@@ -72,7 +56,7 @@ input:focus {
 	margin-top: 20px;
 }
 
-#m_pwd {
+#password {
 	background-image: url('../../imgs/member/lock_icon.png');
 	background-repeat: no-repeat;
 	background-size: 30px 30px;
@@ -107,20 +91,37 @@ a {
 	color: #8c8c8c;
 }
 
+/*로그인 상태 체크*/
 #maintain {
 	font-size: 15px;
 	color: #8c8c8c;
 }
 
-input[id="checkbox"] {
+input[id="remember-me"] {
 	position: relative;
 	top: 3px;
 	cursor: pointer;
 }
 
-label[for="checkbox"] {
+label[for="remember-me"] {
 	margin-left: 10px;
 	cursor: pointer;
+}
+
+/*버튼의 색상과 타입*/
+input[type="checkbox"] {
+	width: 1rem;
+	height: 1rem;
+	border-radius: 50%;
+	border: 1px solid #999;
+	appearance: none;
+	cursor: pointer;
+	transition: background 0.2s;
+}
+
+input[type="checkbox"]:checked {
+	background-color: gray;
+	border: none;
 }
 
 #another_form {

@@ -29,6 +29,7 @@ DROP SEQUENCE bs_order_cash_seq;
 select * from bs_member_roles;
 SELECT * FROM bs_member;
 
+select * from persistent_logins;
 
 --회원 테이블 >>JPA로 만들거라 안만들어도 됨
 create table bs_member(

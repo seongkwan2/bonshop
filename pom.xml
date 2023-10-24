@@ -20,6 +20,13 @@
 	<dependencies>
 	
 	
+	
+		<!-- Spring Security의 Taglibs 추가  -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-taglibs</artifactId>
+		</dependency>
+	
 		<!-- Spring security 사용 가능하게 함 -->
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>

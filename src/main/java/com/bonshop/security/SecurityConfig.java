@@ -13,6 +13,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
+import com.boshop.Handler.CustomAccessDeniedHandler;
+import com.boshop.Handler.CustomLoginFailureHandler;
+import com.boshop.Handler.CustomLoginSuccessHandler;
+import com.boshop.Handler.CustomLogoutSuccessHandler;
+
 import lombok.extern.java.Log;
 
 @Log
@@ -37,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception
 	{
-		web.ignoring().antMatchers("css/**", "imgs/**", "/js/**", "lib/**", "upload/**");
+		web.ignoring().antMatchers("/css/**", "/imgs/**", "/js/**", "/lib/**", "/upload/**");
 	}
 
 	@Override
@@ -45,42 +50,51 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		//HttpSecurity는 웹과 관련된 다양한 보안설정을 걸어 줄 수 있다.
 
 		log.info("security config ......");
-		//permitAll()은 모든 사용자가 접근할 수 있다는 것을 의미
-		http.authorizeRequests().antMatchers("/guest/**").permitAll();//authorizeRequests()는 시큐리티 처리에서 HttpServletRequest에 해당한다.
-		http.authorizeRequests().antMatchers("/manager/**").hasRole("MANAGER"); //hasRole()은 특정권한을 가진 사람만이 접근가능
-		http.authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN");
-		http.authorizeRequests().antMatchers("/member/**").permitAll();//authorizeRequests()는 시큐리티 처리에서 HttpServletRequest에 해당한다.
-		http.authorizeRequests().antMatchers("/member/sign").permitAll();
-		
-		//로그인 페이지
-		http.formLogin()
-	    .loginPage("/member/login")
-	    .defaultSuccessUrl("/")  // 로그인 성공 후 리디렉트될 URL
-	    .failureUrl("/member/login")                        // 로그인 실패 시 리디렉트될 URL
-	    .permitAll();
 
-		
-		//403 접근금지 에러가 났을 때 실행
-		http.exceptionHandling().accessDeniedPage("/accessDenied");
-		
-		//로그아웃시 세션무효화
-		http.logout().logoutUrl("/logout").invalidateHttpSession(true);
-		
-		
-		http.rememberMe().key("zerock").userDetailsService(zerockUsersService)	
-		//rememberMe()에서 쿠키값을 암호화 해서 전달하므로 암호의 '키(key)'를 지정하여 사용
-		.tokenRepository(getJDBCRepository())
-	    .tokenValiditySeconds(60*60*24);//쿠키 유효 시간을 초단위로 설정 => 60초*60분*24시간 즉 24시간 쿠키 유효시간 설정			
-    }//configure()
+		// 접근 설정
+	    http.authorizeRequests()
+	        .antMatchers("/items/**").permitAll()
+	        .antMatchers("/admin/**").hasRole("ADMIN")
+	        .antMatchers("/myPage/**").hasAnyRole("ROLE_USER", "ADMIN")
+	        .antMatchers("/member/login", "/member/sign").not().authenticated()	//로그인 상태일때 접근 금지
+	        .anyRequest().authenticated(); // 나머지 모든 요청은 인증 필요
+	    
+	    // 접근 금지 처리
+	    http.exceptionHandling()
+        .accessDeniedHandler(new CustomAccessDeniedHandler());
 
+	    // 로그인 페이지 설정
+	    http.formLogin()
+	        .loginPage("/member/login")		//로그인 페이지
+	        .defaultSuccessUrl("/", true)	//로그인 성공시 메인 페이지로 이동
+	        .successHandler(new CustomLoginSuccessHandler())	//로그인 성공 핸들러
+	        .failureUrl("/member/login")	//로그인 실패시 다시 로그인 페이지로 이동
+	        .failureHandler(new CustomLoginFailureHandler());	//로그인 실패 핸들러
+	        //.permitAll();					//로그인 페이지는 누구나 접근가능하지만 이걸 활성화 시키면 로그인상태에서도 로그인폼이 가져서 비활성화 
+        
+	    // 로그아웃 설정
+	    http.logout()
+	        .logoutUrl("/member/logout")
+	        .logoutSuccessHandler(new CustomLogoutSuccessHandler())	//로그아웃 핸들러
+	        .invalidateHttpSession(true);
 
+	    // 로그인 상태 유지를 위한 remember-Me 설정
+	    http.rememberMe()
+	        .key("zerock")							//토큰의 암호화를 위한 키 설정 (키는 remember-me 쿠키를 생성하고 검증할때 사용)
+	        .userDetailsService(zerockUsersService)	//사용자가 다시 방문했을 때 이 서비스를 통해 사용자 정보를 조회
+	        .tokenRepository(getJDBCRepository())	//토큰을 저장, 꺼내서 쓰기위한 공간
+	        .tokenValiditySeconds(60*60*24); 		//토큰의 유효기간을 1일로 설정
+	}
 
+	//로그인 상태 유지를 위한 remember-me 토큰 저장공간
+	//PersistentTokenRepository는 remember-me 토큰을 저장 및 조회하기 위한 저장소를 정의
 	private PersistentTokenRepository getJDBCRepository() {
 		/*  SecurityConfig 에서 rememberMe()를 처리할 때 JdbcTokenRepositoryImpl을 지정해 주어야 하는데 기본적으로 
-		 *   DataSource가 필요하므로 의존성을 주입한다. */
+		DataSource가 필요하므로 의존성을 주입한다. */
 
+		//JdbcTokenRepositoryImpl는 이 토큰을 데이터베이스에 저장하는 구현체
 		JdbcTokenRepositoryImpl repo = new JdbcTokenRepositoryImpl();
-		repo.setDataSource(dataSource);
+		repo.setDataSource(dataSource);	//JdbcTokenRepositoryImpl에 dataSource를 주입
 		return repo;
 	}
 		

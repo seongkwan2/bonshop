@@ -95,8 +95,8 @@ public class MemberController {
 		return zm;
 	}//zip_find_ok()
 
-	//회원저장
 	
+	//회원저장
 	@RequestMapping(value="/sign", method=RequestMethod.POST)
 	@ResponseBody //JSON타입으로 다시 ajax에 접근하기 위한 방법
 	public Map<String, Object> sign(@RequestBody MemberVO m) {

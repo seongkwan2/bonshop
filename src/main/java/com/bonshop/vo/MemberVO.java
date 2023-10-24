@@ -21,7 +21,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString //toString() 메서드 자동제공
+@ToString
 @Entity
 @Table(name="bs_member")
 @EqualsAndHashCode(of="m_id")
