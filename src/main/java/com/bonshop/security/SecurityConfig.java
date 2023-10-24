@@ -4,15 +4,14 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import lombok.extern.java.Log;
 
@@ -33,6 +32,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 		//PasswordEncoder 빈등록하고 MemberTests JUnit 클래스 등에서 @Autowired 자동의존성 주입해야 에러가 안난다.	
 	}
+	
+	//자원 접근 허용
+	@Override
+	public void configure(WebSecurity web) throws Exception
+	{
+		web.ignoring().antMatchers("css/**", "imgs/**", "/js/**", "lib/**", "upload/**");
+	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {//configure() 메서드를 오버라이딩을 해서 간단한 로그 메시지를 출력한다.
@@ -43,10 +49,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/guest/**").permitAll();//authorizeRequests()는 시큐리티 처리에서 HttpServletRequest에 해당한다.
 		http.authorizeRequests().antMatchers("/manager/**").hasRole("MANAGER"); //hasRole()은 특정권한을 가진 사람만이 접근가능
 		http.authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN");
-		http.authorizeRequests().antMatchers("/member/sign").permitAll();//authorizeRequests()는 시큐리티 처리에서 HttpServletRequest에 해당한다.
+		http.authorizeRequests().antMatchers("/member/**").permitAll();//authorizeRequests()는 시큐리티 처리에서 HttpServletRequest에 해당한다.
+		http.authorizeRequests().antMatchers("/member/sign").permitAll();
 		
 		//로그인 페이지
-		http.formLogin().loginPage("/login");
+		http.formLogin()
+	    .loginPage("/member/login")
+	    .defaultSuccessUrl("/")  // 로그인 성공 후 리디렉트될 URL
+	    .failureUrl("/member/login")                        // 로그인 실패 시 리디렉트될 URL
+	    .permitAll();
+
 		
 		//403 접근금지 에러가 났을 때 실행
 		http.exceptionHandling().accessDeniedPage("/accessDenied");

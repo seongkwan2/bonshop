@@ -20,7 +20,7 @@
 
 <!--알람(alert) 라이브러리-->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<link rel="stylesheet" type="text/css" href="../css/alert.css">
+<link rel="stylesheet" type="text/css" href="/css/alert.css">
 
 
 </head>
@@ -118,79 +118,6 @@
 </form>
 </div>
 
-<script>
-//우편검색 창
-function post_check(){
-	$url="zip_find";//매핑주소
-	window.open($url,"우편검색","width=415px,height=190px,"
-			+"scrollbars=yes");
-	//폭이 415 픽셀이고,높이가 190 픽셀,스크롤바가 생성되는
-	//우편번호 검색 공지창을 띄운다.
-}
-
-</script>
-
-<script>
-//폼을 보내는 함수
-function sendForm(){
-	var formData = {	//여기에 토큰을 넣으면 안됨
-			"m_id": $("#m_id").val(),
-	        "m_pwd": $("#m_pwd").val(),
-	        "m_name": $("#m_name").val(),
-	        "m_birth": $("#m_birth").val(),
-	        "m_email": $("#m_email").val(),
-	        "m_phone": $("#m_phone").val(),
-	        "m_tel": $("#m_tel").val()
-	}; //formData
-	
-	// CSRF 토큰을 가져와서 헤더에 추가
-    var csrfToken = $("meta[name='_csrf']").attr("content");
-    var csrfHeader = $("meta[name='_csrf_header']").attr("content");
-	
-	$.ajax({
-	    url:"/member/sign",
-	    method:"POST",
-	    data:JSON.stringify(formData),
-	    contentType: "application/json",
-	    beforeSend: function(xhr) {	//토큰만 따로 보내는 방식을 선호
-	    	xhr.setRequestHeader(csrfHeader, csrfToken);
-	    },
-	    success: function(map) {
-	        console.log("Response from server:", map);
-	        if(map.status === "true") {
-	            Swal.fire({
-	                title: '가입성공 입니다.',
-	                text: map.message,  // 서버로부터 받은 메시지 사용
-	                icon: 'success',
-	                confirmButtonText: '확인',
-	                customClass: {
-	                    title: 'my-title-class',
-	                    content: 'my-content-class'
-	                }
-	            });
-	        } else {
-	            Swal.fire({
-	                title: '가입실패 입니다.',
-	                text: map.message,  // 서버로부터 받은 메시지 사용
-	                icon: 'error',
-	                confirmButtonText: '확인',
-	                customClass: {
-	                    title: 'my-title-class',
-	                    content: 'my-content-class'
-	                }
-	            });
-	        }
-	    },
-	    error: function(jqXHR, textStatus, errorThrown) {
-	        console.error('Error Details:', textStatus, errorThrown);
-	        alert('서버와의 통신 중 오류가 발생했습니다.');
-	    }
-	});//ajax
-
-}//sendForm
-
-
-</script>
 <%-- include : footer --%>
 <%@ include file="../include/footer.jsp" %>
 </body>

@@ -1,7 +1,9 @@
 package com.bonshop.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -9,12 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bonshop.service.MemberService;
+import com.bonshop.vo.MemberRole;
 import com.bonshop.vo.MemberVO;
 import com.bonshop.vo.ZipCodeVO;
 import com.bonshop.vo.ZipcodeVO2;
@@ -30,7 +35,7 @@ public class MemberController {
 	private PasswordEncoder passwordEncoder;
 
 	//회원가입 폼
-	@RequestMapping("/sign")
+	@RequestMapping(value="/sign", method=RequestMethod.GET)
 	public ModelAndView sign() {
 		System.out.println("sign() GET 동작");
 		ModelAndView mv =new ModelAndView();
@@ -91,21 +96,38 @@ public class MemberController {
 	}//zip_find_ok()
 
 	//회원저장
+	
 	@RequestMapping(value="/sign", method=RequestMethod.POST)
-	public ModelAndView sign(MemberVO m) {
-		System.out.println("sign(POST) 메서드 동작");
-		/* member_join.jsp의 네임 피라미터 이름과 빈클래스의 변수명이 같으면 MemberVO m에서 m에 가입폼에서 입력한 정보가 저장되어 있다.*/
-		System.out.println("아이디:"+m.getM_id());
-		System.out.println("비번:"+m.getM_pwd());
-		System.out.println("회원이름:"+m.getM_name());
-		System.out.println("권한 목록 :"+m.getRoles().toString());
+	@ResponseBody //JSON타입으로 다시 ajax에 접근하기 위한 방법
+	public Map<String, Object> sign(@RequestBody MemberVO m) {
+	    Map<String, Object> map = new HashMap<>();
 
-		m.setM_pwd(passwordEncoder.encode(m.getM_pwd()));//비번 암호화
-		this.memberService.insertMember(m);//회원저장
+	    System.out.println("sign(POST) 메서드 동작");
+	    System.out.println("입력한 값들 출력 : "+ m);
 
-		return new ModelAndView("redirect:/login");
+	    try {
+	        // 1. 기본 권한 설정
+	        MemberRole defaultRole = new MemberRole();	//권한 테이블 소환
+	        defaultRole.setRoleName("ROLE_USER");		//권한 테이블에 ROLE_USER이라는 권한 생성
+	        List<MemberRole> roles = new ArrayList<>();
+	        roles.add(defaultRole);
+	        m.setRoles(roles);							//클라이언트의 아이디에 ROLE_USER권한 부여
+	        System.out.println("권한 목록 :"+m.getRoles().toString());
 
-	}//member_join_ok()
+	        m.setM_pwd(passwordEncoder.encode(m.getM_pwd())); //비번 암호화
+	        this.memberService.insertMember(m); //회원저장
+
+	        map.put("status", "success");
+	        map.put("message", "가입 성공");
+	        
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    	map.put("status", "error");
+	    	map.put("message", "가입 실패: " + e.getMessage());
+	    }
+	    System.out.println("map의값 : " + map);
+		return map;
+	}
 
 
 

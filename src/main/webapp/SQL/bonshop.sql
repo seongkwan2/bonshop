@@ -5,7 +5,7 @@ commit;     --항상 수정후 커밋하기
 --ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 --삭제
 DROP TABLE bs_member;
-DROP TABLE bs_member_roles;
+DROP TABLE bs_member_roles; --member의 권한 테이블
 DROP TABLE bs_address;
 DROP TABLE bs_category;
 DROP TABLE bs_item;
