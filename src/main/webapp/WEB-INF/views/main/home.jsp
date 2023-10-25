@@ -13,7 +13,7 @@
 <jsp:include page="../include/header.jsp"/>
 <!-- 페이지 내용 -->
 
-메인페이지 입니다.${id } ${name }
+메인페이지 입니다.${name}
 
 <jsp:include page="../include/footer.jsp"/>
 

@@ -106,12 +106,12 @@ public class MemberController {
 	    System.out.println("입력한 값들 출력 : "+ m);
 
 	    try {
-	        // 1. 기본 권한 설정
+	        //회원가입시 자동으로 일반회원의 권한을 부여함
 	        MemberRole defaultRole = new MemberRole();	//권한 테이블 소환
-	        defaultRole.setRoleName("ROLE_USER");		//권한 테이블에 ROLE_USER이라는 권한 생성
+	        defaultRole.setRoleName("USER");		//권한 테이블에 ROLE_USER이라는 권한 생성
 	        List<MemberRole> roles = new ArrayList<>();
 	        roles.add(defaultRole);
-	        m.setRoles(roles);							//클라이언트의 아이디에 ROLE_USER권한 부여
+	        m.setRoles(roles);							//클라이언트의 아이디에 USER권한 부여
 	        System.out.println("권한 목록 :"+m.getRoles().toString());
 
 	        m.setM_pwd(passwordEncoder.encode(m.getM_pwd())); //비번 암호화

@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	DataSource dataSource;
 
 	@Autowired
-	ZerockUsersService zerockUsersService;
+	MemberCheckService memberCheckService;
 
 	@Bean	//비밀번호 암호화 빈 등록
 	public PasswordEncoder passwordEncoder() {
@@ -51,12 +51,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		log.info("security config ......");
 
-		// 접근 설정
+		// 접근 설정 (밴픽 부터 해야됨)
 	    http.authorizeRequests()
 	        .antMatchers("/items/**").permitAll()
 	        .antMatchers("/admin/**").hasRole("ADMIN")
-	        .antMatchers("/myPage/**").hasAnyRole("ROLE_USER", "ADMIN")
 	        .antMatchers("/member/login", "/member/sign").not().authenticated()	//로그인 상태일때 접근 금지
+	        .antMatchers("/member/myPage").hasAnyRole("USER", "ADMIN")
+	        .antMatchers("/member/**").permitAll()
+	        
+	        
 	        .anyRequest().authenticated(); // 나머지 모든 요청은 인증 필요
 	    
 	    // 접근 금지 처리
@@ -81,7 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	    // 로그인 상태 유지를 위한 remember-Me 설정
 	    http.rememberMe()
 	        .key("zerock")							//토큰의 암호화를 위한 키 설정 (키는 remember-me 쿠키를 생성하고 검증할때 사용)
-	        .userDetailsService(zerockUsersService)	//사용자가 다시 방문했을 때 이 서비스를 통해 사용자 정보를 조회
+	        .userDetailsService(memberCheckService)	//사용자가 다시 방문했을 때 이 서비스를 통해 사용자 정보를 조회
 	        .tokenRepository(getJDBCRepository())	//토큰을 저장, 꺼내서 쓰기위한 공간
 	        .tokenValiditySeconds(60*60*24); 		//토큰의 유효기간을 1일로 설정
 	}

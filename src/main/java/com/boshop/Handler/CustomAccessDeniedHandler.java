@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
-    @Override	//로그인이 되어있을때 로그인창으로 이동시 강제로 메인페이지로 돌려보냄
+    @Override	//해당페이지로 접근하는데 권한이 부족할때 메인페이지로 돌려보냄
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
