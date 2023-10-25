@@ -35,11 +35,10 @@ public class MemberVO {//회원관리 엔티티빈 클래스
 	private String m_name;//회원이름
 	private String m_birth;//생년월일
 	private String m_email;//이메일
-	private String m_phone;//폰번호
+	private String m_phone;//전화번호
 	private String m_zipCode;//우편번호
 	private String m_addr;//주소
 	private String m_addr2;//나머지 주소
-	private String m_tel;//나머지 주소
 	@CreationTimestamp //@CreationTimestamp 는 하이버네이트의 특별한 기능으로 등록시점 날짜값을 기록,mybatis로 실행할 때는 구동 안됨.
 	private Timestamp m_regdate;//가입날짜	
 

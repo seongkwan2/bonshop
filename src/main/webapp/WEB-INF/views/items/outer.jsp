@@ -11,7 +11,6 @@
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <link href="/css/main.css" rel="stylesheet"/>
 <link href="/css/rent.css" rel="stylesheet"/>
-<link href=/css/rent_Wait.css rel="stylesheet" />
 
 </head>
 <body>

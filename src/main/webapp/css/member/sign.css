@@ -40,7 +40,7 @@
 
 /*입력 폼의 크기, 위치*/
 #idform,#pwdform, #nameform, #birthform, #phoneform, #emailform,
-	#genderform, #telform, #pwdCKform, #zipform{
+	#genderform, #pwdCKform, #zipform{
 	width: 400px;
 	height: 50px;
 	margin: 0 auto;
@@ -116,26 +116,4 @@ input:focus {
 	margin-top: 20px;
 	width: 400px;
 	height: 50px;
-}
-
-#telform>#m_tel {
-	margin: 0 auto;
-	width: 400px;
-	height: 50px;
-	border-radius: 10px;
-	border: 1px solid #dcdcdc;
-	margin-top: 20px;
-	font-size: 20px;
-	cursor: pointer;
-	color: #969696;
-}
-
-#telform>#m_tel>option {
-	text-align: center;
-	cursor: pointer;
-}
-
-.select {
-	background: url('/imgs/member/tel.png') calc(100% - 350px) center no-repeat;
-	background-size: 30px;
 }

@@ -27,11 +27,11 @@
 	    <sec:authorize access="isAuthenticated()"> 
 	        <span> ${name}님 안녕하세요😊</span>
 	
-	        <form action="/member/myPage" method="get">
+	        <form action="/myPage/home" method="get">
 	            <input type="submit" value="마이페이지"/>
 	        </form>
 			<form action="/member/logout" method="post">
-	        	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+	        	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> <!-- POST로 보낼땐 토큰도 보냄 -->
 	        	<input type="submit" value="로그아웃"/>
 	     	</form>
 	    </sec:authorize>

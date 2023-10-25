@@ -16,9 +16,9 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDAO memberDao;
 
 	@Override
-	public MemberVO idCheck(String id) {		
-		return this.memberDao.idCheck(id);
-	}//아이디 중복확인
+	public MemberVO findById(String id) {		
+		return this.memberDao.findById(id);
+	}//아이디 검색
 
 	@Override
 	public void insertMember(MemberVO m) {

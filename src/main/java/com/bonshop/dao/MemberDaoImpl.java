@@ -3,7 +3,9 @@ package com.bonshop.dao;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
+//import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional; //둘중에 이걸 임포트 해야함 안그럼 저장안됨
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,9 +23,9 @@ public class MemberDAOImpl implements MemberDAO {
 	private ZipcodeRepository zipcodeRepo;
 
 	@Override
-	public MemberVO idCheck(String id) {
+	public MemberVO findById(String id) {
 		
-		System.out.println(" \n 아이디 중복 검색(JPA) =================>");        
+		System.out.println(" \n 아이디 검색(JPA) =================>");        
 		Optional<MemberVO> result = this.memberRepo.findById(id);
 	    MemberVO member;
 	    if(result.isPresent()){//아이디에 해당하는 회원 정보가 있다면 참
@@ -74,6 +76,6 @@ public class MemberDAOImpl implements MemberDAO {
 	public void updateMember(MemberVO m) {
 		System.out.println(" \n ==============================> jpa로 회원정보 수정하기");
 		this.memberRepo.updateMember(m.getM_pwd(), m.getM_name(), m.getM_birth(), m.getM_email(), m.getM_phone(),
-				m.getM_zipCode(), m.getM_addr(), m.getM_addr2(),m.getM_tel(), m.getM_id());
+				m.getM_zipCode(), m.getM_addr(), m.getM_addr2(), m.getM_id());
 	}//회원정보 수정
 }

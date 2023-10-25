@@ -74,15 +74,6 @@
 				<span class="phoneck"></span>
 			</div>
 			
-			<div id="telform">
-				<select id="m_tel" name="m_tel" class="select">
-		    		<option value="">통신사 선택</option>
-		    		<option value="SK">SK</option>
-		    		<option value="KTF">KT</option>
-		    		<option value="LG">LGU+</option>
-		    		<option value="알뜰">알뜰폰</option>
-				</select>
-			</div>
 			
 			<!-- 주소검색  -->
 			<div id="address"> <!-- 버튼 -->

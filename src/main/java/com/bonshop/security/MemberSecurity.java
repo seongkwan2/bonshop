@@ -27,15 +27,9 @@ public class MemberSecurity extends User {
 	//MemberSecurity 객체를 생성할 때 사용자 정보와 HTTP 요청 객체를 받아들임
 	public MemberSecurity(MemberVO memberInfo,HttpServletRequest request) {
 		super(memberInfo.getM_id(), memberInfo.getM_pwd(), makeGrantedAuthority(memberInfo.getRoles()));
+		this.memberInfo = memberInfo;
 		//부모클래스 생성자에 인자값으로 아이디,비번,권한 목록을 넘겨줌
 		System.out.println(" \n =============> MemberSecurity 로 접근함");
-		
-		System.out.println("권한이름:" + makeGrantedAuthority(memberInfo.getRoles()).toString());
-		
-		//세션 저장
-		HttpSession session=request.getSession();
-		session.setAttribute("memberInfo", memberInfo);
-		session.setAttribute("name", memberInfo.getM_name());
 		
 		//권한 목록 생성 (GrantedAuthority는 Spring Security에서 권한을 표현하는 인터페이스)
 		List<GrantedAuthority> list = makeGrantedAuthority(memberInfo.getRoles());
@@ -45,10 +39,15 @@ public class MemberSecurity extends User {
 		String total_Auth="";
 		//권한 목록 순회 및 출력
 		for(int i=0;i<list.size();i++) {	//권한목록의 크기만큼 반복문을 돌림
-		  System.out.println("현재 가지고있는 권한 : "+list.get(i));	//현재 권한을 콘솔에 출력
+		  System.out.println("현재 가지고있는 모든권한 : "+list.get(i));	//현재 권한을 콘솔에 출력
 		  total_Auth += list.get(i) + ","; // 현재 권한을 total_Auth 문자열에 누적하고 쉼표 추가
 		}
-		System.out.println("현재 계정이 가지고있는 모든권한(누적권한) :"+total_Auth);	//누적된 권한 문자열을 콘솔에 출력합니다.
+		System.out.println("가지고있는 모든 권한을 합친 모습 :"+total_Auth);	//누적된 권한 문자열을 콘솔에 출력합니다.
+		
+		//세션에 저장
+		HttpSession session = request.getSession();
+		session.setAttribute("name", memberInfo.getM_name());
+		session.setAttribute("id", memberInfo.getM_id());
 		session.setAttribute("auth",total_Auth);	//세션에 누적 권한 저장
 	}
 	//makeGrantedAuthority 메서드는 MemberRole타입의 권한목록을 매개변수로 받아서 이것을 GrantedAuthority 타입의 목록으로 변환시킴

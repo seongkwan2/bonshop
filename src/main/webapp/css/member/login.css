@@ -42,7 +42,7 @@ input:focus {
 	text-align: center;
 }
 
-#username, #password, #m_name, #m_birth, #m_phone, #m_email, #m_gender {
+#username, #password, #m_name, #m_birth, #m_phone, #m_email {
 	background-image: url('../../imgs/member/people.png');
 	background-repeat: no-repeat;
 	background-size: 30px 30px;

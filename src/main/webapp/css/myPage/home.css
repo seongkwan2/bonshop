@@ -1,0 +1,120 @@
+/*전체 틀의 크기*/
+.Mypage {
+	width: 1800px;
+    margin: 0 auto;
+    display: flex;
+}
+
+.Mypage_menu {
+    margin: 0px 70px 0px 30px;
+    font-size: 1em;
+}
+
+.Mypage_menu h2 {
+	margin-top: 20px;
+	margin-left: 20px;
+	margin-bottom: 50px;
+	font-size: 48px;
+	color: #1c2b37;
+}
+.Mypage_menu img {
+	border: 1px solid #ccc;
+	border-radius: 200px;
+	padding: 20px;
+	width: 200px; height: 200px;
+	margin-left: 20px;
+}
+.Mypage_menu ul {
+	list-style: none;
+	margin: 20px 0px 0px 10px;
+}
+.Mypage_menu a {
+	text-decoration: none;
+	color: #6b6b6b; display: block;
+	height: 20px; width: 150px; padding: 30px 20px 20px 5px;
+	font-size: 18px;
+}
+.Mypage_menu a:hover {
+	font-weight: bold;
+	border-bottom: 1px solid #1c2b37;
+}
+/* 개인정보확인페이지 */
+#mypage_show {
+	width: 1500px;
+	float: right;
+	padding-left: 70px;
+	margin-right: 100px;
+	margin-bottom: 20px;
+	border-left: 2px solid #ccc;
+	color: #1c2b37;
+}
+#mypage_show h1 {
+	margin-top: 50px;
+	padding-left: 20px;
+	padding-bottom: 30px;
+	font-size: 30px;
+	border-bottom: 2px solid #ccc;
+}
+#mypage_st th {
+   float: left;
+   margin-left: 10px;
+   margin-right: 100px;
+   padding: 25px 0px;
+}
+/* 회원정보수정(비밀번호 확인창) */
+#mypage_show h3 {
+	font-size: 20px;
+	padding-left: 10px;
+}
+#mypage_show h4 {
+	margin-bottom: 30px;
+	font-size: 15px;
+	padding-left: 10px;
+}
+#mypage_bt {
+	border: 1px solid #1c2b37;
+	background-color: #1c2b37;
+	color: white;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 10px 90px;
+	margin-top: 90px;
+	margin-left: 350px;
+}
+/* 회원정보수정 */
+#mypage_bt2 {
+	border: 1px solid #1c2b37;
+	background-color: #1c2b37;
+	color: white;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 10px 90px;
+	margin-top: 40px;
+	margin-left: 350px;
+}
+/* 회원정보탈퇴 */
+#mypage_del {
+	margin-left: 210px;
+	margin-top: 100px;
+}
+#mypage_bt3 {
+	border: 1px solid #1c2b37;
+	background-color: #1c2b37;
+	color: white;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 10px 90px;
+	margin-left: 30px;
+}
+#delfont {
+	font-weight: bold;
+	font-size: 15px;
+	color: #ac0000;
+}
+
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+

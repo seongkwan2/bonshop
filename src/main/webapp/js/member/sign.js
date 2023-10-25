@@ -93,19 +93,6 @@ function joinCheck(){
 		  return false;
 	  }
 
-	  
-    
-      //통신사 선택
-    
-	  let m_tel = $('#m_tel').val();
-
-      if(!m_tel){
-          alert("선택된 항목이 없습니다.");
-          $('#m_tel').focus();
-          return false;
-      }
-	  
-  	
       // 모든 조건을 통과한 후 아이디 중복 체크를 했는지 확인
       if (!isIdChecked) {
           alert("아이디 중복 확인을 해주세요.");
@@ -234,7 +221,6 @@ function sendForm(){
 	        "m_zipCode": $("#m_zipCode").val(),
 	        "m_addr": $("#m_addr").val(),
 	        "m_addr2": $("#m_addr2").val(),
-	        "m_tel": $("#m_tel").val(),
 	        "m_state": $("#m_state").val()
 	}; //formData
 	
@@ -288,64 +274,3 @@ function sendForm(){
 	});//ajax
 
 }//sendForm()
-
-
-
-//수정창 유효성 검증
-function edit_check(){
-	$m_pwd=$.trim($("#m_pwd").val());
-	$m_pwd2=$.trim($("#m_pwdck").val());
-	if($m_pwd == ""){
-		alert("비번을 입력하세요!");
-		$("#m_pwd").val("").focus();
-		return false;
-	}
-	if($m_pwd2 == ""){
-		alert("비번확인을 입력하세요!");
-		$("#m_pwd2").val("").focus();
-		return false;
-	}
-	if($m_pwd != $m_pwd2){
-		alert("비번이 다릅니다!");
-		$("#m_pwd").val("");//비번 입력박스를 초기화
-		$("#m_pwd2").val("");
-		$("#m_pwd").focus();
-		return false;
-	}
-	if($.trim($("#m_name").val())==""){
-		alert("회원이름을 입력하세요!");
-		$("#m_name").val("").focus();
-		return false;
-	}
-	if($.trim($("#m_zipCode").val())==""){
-		alert("우편번호를 입력하세요!");		
-		return false;
-	}
-
-	if($.trim($("#m_addr").val())==""){
-		alert("주소를 입력하세요!");		
-		return false;
-	}
-	
-	if($.trim($("#m_addr2").val())==""){
-		alert("나머지 주소를 입력하세요!");
-		$("#m_addr2").val("").focus();
-		return false;
-	}
-
-	if($.trim($("#m_phone").val())==""){
-		alert("전화번호를 입력하세요!");
-		$("#m_phone").val("").focus();
-		return false;
-	}
-	if($.trim($("#mail_id").val())==""){
-		alert("전자우편을 입력하세요!");
-		$("#mail_id").val("").focus();
-		return false;
-	}
-	if($.trim($("#mail_domain").val())==""){
-		alert("전자우편을 입력하세요!");		
-		return false;
-	}
-}//edit_check()
-

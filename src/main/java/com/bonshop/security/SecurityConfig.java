@@ -55,8 +55,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	    http.authorizeRequests()
 	        .antMatchers("/items/**").permitAll()
 	        .antMatchers("/admin/**").hasRole("ADMIN")
+	        .antMatchers("/myPage/**").hasAnyRole("USER", "ADMIN")
 	        .antMatchers("/member/login", "/member/sign").not().authenticated()	//로그인 상태일때 접근 금지
-	        .antMatchers("/member/myPage").hasAnyRole("USER", "ADMIN")
 	        .antMatchers("/member/**").permitAll()
 	        
 	        

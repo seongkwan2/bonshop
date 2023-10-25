@@ -54,7 +54,7 @@ public class MemberController {
 		response.setContentType("text/html;charset=UTF-8");
 
 		//DB에서 클라이언트가 입력한 ID가 존재하는지 검색
-		MemberVO memberInfo = this.memberService.idCheck(m_id);
+		MemberVO memberInfo = this.memberService.findById(m_id);
 
 		int re=-1;
 		if(memberInfo != null) { //검색한 아이디가 있으면 1을 반환(중복)
@@ -128,13 +128,4 @@ public class MemberController {
 	    System.out.println("map의값 : " + map);
 		return map;
 	}
-
-
-
-
-
-	/*마이 페이지*/
-	@RequestMapping(value="/myPage")
-	public void myPage() {}
-
 }
