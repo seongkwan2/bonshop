@@ -1,0 +1,217 @@
+--¼îÇÎ¸ô µ¥ÀÌÅÍº£ÀÌ½º ¼³°è
+
+
+commit;     --Ç×»ó ¼öÁ¤ÈÄ Ä¿¹ÔÇÏ±â
+--¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ
+--»èÁ¦
+DROP TABLE bs_member;
+DROP TABLE bs_member_roles; --memberÀÇ ±ÇÇÑ Å×ÀÌºí
+DROP TABLE bs_address;
+DROP TABLE bs_category;
+DROP TABLE bs_item;
+DROP TABLE bs_cart;
+DROP TABLE bs_wish_list;
+DROP TABLE bs_review;
+DROP TABLE bs_order;
+DROP TABLE bs_order_cash;
+
+DROP SEQUENCE bs_member_seq;
+DROP SEQUENCE bs_address_seq;
+DROP SEQUENCE bs_category_seq;
+DROP SEQUENCE bs_item_seq;
+DROP SEQUENCE bs_cart_seq;
+DROP SEQUENCE bs_wish_list_seq;
+DROP SEQUENCE bs_review_seq;
+DROP SEQUENCE bs_order_seq;
+DROP SEQUENCE bs_order_cash_seq;
+
+--¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ
+select * from bs_member_roles;
+SELECT * FROM bs_member;
+
+select * from persistent_logins;
+
+--È¸¿ø Å×ÀÌºí >>JPA·Î ¸¸µé°Å¶ó ¾È¸¸µé¾îµµ µÊ
+create table bs_member(
+    m_id VARCHAR2(30) PRIMARY KEY, 
+    m_pwd VARCHAR2(300),        
+    m_name VARCHAR2(30),
+    m_birth VARCHAR2(100),                        --20020201 Çü½ÄÀ¸·Î ¹ÞÀ½
+    m_email VARCHAR2(300),                       --ÀÌ¸ÞÀÏ ¾Õ ºÎºÐ
+    m_phone VARCHAR2(30),                        --Æù ¹øÈ£
+    m_tel VARCHAR2(10),
+    m_state NUMBER default 1,                     --È¸¿ø »óÅÂ¿©ºÎ(ex: 1Àº Æò¹üÇÑ »óÅÂ 0Àº Å»ÅðÈ¸¿ø 9´Â °ü¸®ÀÚ)
+    m_regdate DATE DEFAULT sysdate          --°¡ÀÔÀÏÀÚ
+);
+
+--È¸¿ø Å×ÀÌºí Àü¿ë ½ÃÄö½º
+CREATE SEQUENCE bs_member_seq
+START WITH 1 INCREMENT BY 1 NOCACHE;  --½ÃÄö½º1ºÎÅÍ½ÃÀÛ, 1¾¿Áõ°¡, Ä³½Ã»ç¿ë¾ÈÇÔ
+
+
+ALTER SEQUENCE bs_member_seq RESTART START WITH 1; --½ÃÄö½º ´Ù½Ã 1ºÎÅÍ ½ÃÀÛ
+
+
+--¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ
+
+
+--Ä«Å×°í¸® Å×ÀÌºí
+CREATE TABLE bs_category(
+ category_num NUMBER,                                   --1Â÷ Ä«Å×°í¸® ¹øÈ£
+ category_num2 NUMBER PRIMARY KEY,               --2Â÷ Ä«Å×°í¸® ¹øÈ£ (EX: 1-1 = ¹ÝÆÈ , 1-2 = ±äÆÈ)
+ category_name VARCHAR2(100)                     --Ä«Å×°í¸® ÀÌ¸§
+);
+--Ä«Å×°í¸® Å×ÀÌºí Àü¿ë ½ÃÄö½º
+CREATE SEQUENCE bs_category_seq
+START WITH 1 INCREMENT BY 1 NOCACHE;  --½ÃÄö½º1ºÎÅÍ½ÃÀÛ, 1¾¿Áõ°¡, Ä³½Ã»ç¿ë¾ÈÇÔ
+
+
+--¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ
+
+
+--»óÇ° Å×ÀÌºí
+CREATE TABLE bs_item(
+    i_num NUMBER PRIMARY KEY, --»óÇ° °íÀ¯¹øÈ£
+    i_category number,      --»óÇ° Ä«Å×°í¸®(Á¾·ù)
+    i_name VARCHAR2(150), --»óÇ° ÀÌ¸§
+    i_price NUMBER,         --»óÇ° ¿ø·¡ °¡°Ý
+    i_sale NUMBER,          --»óÇ° ÆÇ¸Å °¡°Ý
+    i_count NUMBER,         --»óÇ° Àç°í °³¼ö
+    i_img1 VARCHAR2(150),   --»óÇ° ÀÌ¹ÌÁö1
+    i_img2 VARCHAR2(150),   --»óÇ° ÀÌ¹ÌÁö2
+    i_img3 VARCHAR2(150),   --»óÇ° ÀÌ¹ÌÁö3
+    i_cont VARCHAR2(1000), --»óÇ° ¼³¸í
+    i_state VARCHAR2(10) default 'ÆÇ¸ÅÁß',       --ÆÇ¸ÅÀ¯¹«
+    i_regdate DATE DEFAULT sysdate  --»óÇ° µî·Ï ÀÏÀÚ
+
+);
+--»óÇ° Å×ÀÌºí Àü¿ë ½ÃÄö½º
+CREATE SEQUENCE bs_item_seq
+START WITH 1 INCREMENT BY 1 NOCACHE;  --½ÃÄö½º1ºÎÅÍ½ÃÀÛ, 1¾¿Áõ°¡, Ä³½Ã»ç¿ë¾ÈÇÔ
+
+
+--¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ
+
+
+--È¸¿øÀÇ ÁÖ¼Ò
+CREATE TABLE bs_address(
+    addr_num NUMBER PRIMARY KEY,
+    addr_m_id VARCHAR2(30),
+    address VARCHAR2(200),
+    address2 VARCHAR2(200),
+    addr_code VARCHAR2(10),
+    FOREIGN KEY (addr_m_id) REFERENCES bs_member(m_id) ON DELETE CASCADE
+);
+
+--ÁÖ¼Ò Å×ÀÌºí Àü¿ë ½ÃÄö½º
+CREATE SEQUENCE bs_address_seq
+START WITH 1 INCREMENT BY 1 NOCACHE; --½ÃÄö½º1ºÎÅÍ½ÃÀÛ, 1¾¿Áõ°¡, Ä³½Ã»ç¿ë¾ÈÇÔ
+
+
+--¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ
+
+
+--Àå¹Ù±¸´Ï
+
+CREATE TABLE bs_cart(
+    cart_num NUMBER PRIMARY KEY,                      --Àå¹Ù±¸´Ï ¹øÈ£
+    cart_mid VARCHAR2(30),                                     --Àå¹Ù±¸´Ï ÀÌ¿ë È¸¿ø
+    cart_item_no NUMBER,                                     --»óÇ° °íÀ¯ ¹øÈ£
+    cart_count NUMBER,                                        --»óÇ° ±¸¸Å ¼ö·®
+    cart_delivery VARCHAR2(10) default '¹è¼ÛÀü',         --¹è¼Û»óÅÂ
+    cart_date DATE DEFAULT sysdate,                      --Àå¹Ù±¸´Ï¿¡ ´ãÀº ³¯Â¥
+    
+    FOREIGN KEY (cart_mid) REFERENCES bs_member(m_id) ON DELETE CASCADE,
+    FOREIGN KEY (cart_item_no) REFERENCES bs_item(i_num) ON DELETE CASCADE
+);
+
+--Àå¹Ù±¸´Ï Å×ÀÌºí Àü¿ë ½ÃÄö½º
+CREATE SEQUENCE bs_cart_seq
+START WITH 1 INCREMENT BY 1 NOCACHE;  --½ÃÄö½º1ºÎÅÍ½ÃÀÛ, 1¾¿Áõ°¡, Ä³½Ã»ç¿ë¾ÈÇÔ
+
+
+--¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ
+
+--Âò¸ñ·Ï
+
+CREATE TABLE bs_wish_list(
+    wish_num NUMBER PRIMARY KEY,
+    wish_mid VARCHAR2(30),          -- È¸¿ø ID¸¦ ÀúÀåÇÒ ÄÃ·³
+    wish_i_num NUMBER,             -- ÂòÇÑ ¾ÆÀÌÅÛÀÇ °íÀ¯ ¹øÈ£
+
+    FOREIGN KEY (wish_mid) REFERENCES bs_member(m_id) ON DELETE CASCADE,
+    FOREIGN KEY (wish_i_num) REFERENCES bs_item(i_num) ON DELETE CASCADE
+);
+
+--Âò¸ñ·Ï Å×ÀÌºí Àü¿ë ½ÃÄö½º
+CREATE SEQUENCE bs_wish_list_seq
+START WITH 1 INCREMENT BY 1 NOCACHE;  --½ÃÄö½º1ºÎÅÍ½ÃÀÛ, 1¾¿Áõ°¡, Ä³½Ã»ç¿ë¾ÈÇÔ
+
+
+--¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ
+
+--¸®ºä Å×ÀÌºí
+
+CREATE TABLE bs_review(
+    r_id NUMBER PRIMARY KEY,
+    r_i_num NUMBER, -- »óÇ° °íÀ¯¹øÈ£
+    r_m_id VARCHAR2(30), -- ¸®ºä ÀÛ¼ºÀÚ ID
+    r_rating NUMBER, -- ÆòÁ¡
+    r_cont VARCHAR2(1000), -- ¸®ºä ³»¿ë
+    r_date DATE DEFAULT sysdate, -- ¸®ºä ÀÛ¼º ³¯Â¥
+    FOREIGN KEY (r_i_num) REFERENCES bs_item(i_num) ON DELETE CASCADE,
+    FOREIGN KEY (r_m_id) REFERENCES bs_member(m_id)ON DELETE CASCADE
+);
+
+--Âò¸ñ·Ï Å×ÀÌºí Àü¿ë ½ÃÄö½º
+CREATE SEQUENCE bs_review_seq
+START WITH 1 INCREMENT BY 1 NOCACHE;  --½ÃÄö½º1ºÎÅÍ½ÃÀÛ, 1¾¿Áõ°¡, Ä³½Ã»ç¿ë¾ÈÇÔ
+
+
+--¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ
+
+
+-- ÁÖ¹® Å×ÀÌºí
+CREATE TABLE bs_order(
+    order_num NUMBER PRIMARY KEY,                         --ÁÖ¹®ÇÏ´Â »óÇ° ¹øÈ£
+    order_id VARCHAR2(30),                                       -- È¸¿ø ¾ÆÀÌµð
+    order_iname_no NUMBER,                                    -- ÁÖ¹® »óÇ° °íÀ¯¹øÈ£
+    order_price NUMBER,                                             --ÁÖ¹® »óÇ° °¡°Ý
+    order_order_no VARCHAR2(100),                               -- ÁÖ¹® ¹øÈ£
+    order_status VARCHAR2(30) DEFAULT 'wait' NOT NULL --°áÁ¦ »óÅÂ È®ÀÎ
+);
+
+--ÁÖ¹® Å×ÀÌºí Àü¿ë ½ÃÄö½º
+CREATE SEQUENCE bs_order_seq
+START WITH 1 INCREMENT BY 1 NOCACHE;  --½ÃÄö½º1ºÎÅÍ½ÃÀÛ, 1¾¿Áõ°¡, Ä³½Ã»ç¿ë¾ÈÇÔ
+
+
+
+--¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ
+
+
+--°áÁ¦ Á¤º¸ ÀúÀå Å×ÀÌºí
+create table bs_order_cash (
+    id number primary key,
+    buyer_id varchar2(100),                      --±¸¸ÅÀÚ ¾ÆÀÌµð
+    buyer_phone varchar2(20),                   --±¸¸ÅÀÚ Æù¹øÈ£
+    buyer_email varchar2(255),                  --±¸¸ÅÀÚ ÀÌ¸ÞÀÏ
+    buy_date DATE default sysdate,              --°áÁ¦ ÀÏÀÚ
+    item_name varchar2(255),                    --±¸¸Å ¹°Ç°
+    item_price number,                              --¹°Ç° °¡°Ý
+    buy_id varchar2(255),                           --°¡¸ÍÁ¡ ¹øÈ£
+    merchant_id varchar2(255),                     --ÁÖ¹®¹øÈ£ ¡Ú
+    card_num varchar2(255),                         --Ä«µå ¹øÈ£
+    pay_status varchar2(50),                           --°áÁ¦ »óÅÂ
+    post_code number                                  --?
+);
+
+--ÁÖ¹® Å×ÀÌºí Àü¿ë ½ÃÄö½º
+CREATE SEQUENCE bs_order_cash_seq
+START WITH 1 INCREMENT BY 1 NOCACHE;  --½ÃÄö½º1ºÎÅÍ½ÃÀÛ, 1¾¿Áõ°¡, Ä³½Ã»ç¿ë¾ÈÇÔ
+
+
+
+--¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ
+
+

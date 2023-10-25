@@ -48,17 +48,10 @@ create table bs_member(
 CREATE SEQUENCE bs_member_seq
 START WITH 1 INCREMENT BY 1 NOCACHE;  --시퀀스1부터시작, 1씩증가, 캐시사용안함
 
-insert into bs_member values(bs_member_seq.nextval, 'z', 'z', '조성관', '19960307', 'zaq3195@naver.com', '01038882488', 'LG', 1, sysdate);
 
-insert into bs_member values(bs_member_seq.nextval, 'zzzz', 'z', '조성관', '1996-03-07', 'zaq3195@naver.com', '010-3888-2488', 'LG', 1, sysdate);
-
-delete from bs_member;
 ALTER SEQUENCE bs_member_seq RESTART START WITH 1; --시퀀스 다시 1부터 시작
 
 
-SELECT * FROM bs_member;
-
-commit;
 --ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
 
