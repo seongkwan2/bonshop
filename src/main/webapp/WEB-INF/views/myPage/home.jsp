@@ -22,7 +22,10 @@
 <body>
 <%-- include : main --%>
 <%@ include file="../include/header.jsp" %>
-<form name="m" method="post">
+
+<!-- 수정시 전송되는 폼 -->
+<form action="/myPage/home" method="post" id="fixMember">
+
 	<div class="Mypage">
 		<div class="Mypage_menu">
 			<h2>마이페이지</h2>
@@ -35,23 +38,13 @@
 			</ul>
 		</div>
 		<div id="mypage_show">
-			<h1>회 원 정 보 확 인 & 수정</h1>
+			<h1>회 원 정 보 확 인 / 수정</h1>
 			<table id="mypage_st">
 					<!-- POST를 위한 토큰 -->
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 					<tr>
 						<th>아이디</th>
 						<td>${memberInfo.m_id}</td>
-					</tr>
-					
-					<tr>
-						<th>비밀번호</th>
-						<td><input type="password" name="m_pwd" id="m_pwd" placeholder="비밀번호 입력"></td>
-					</tr>
-					
-					<tr>
-						<th>비밀번호 확인</th>
-						<td><input type="password" name="m_pwd2" id="m_pwd2" placeholder="비밀번호 입력"></td>
 					</tr>
 					
 					<tr>
@@ -75,15 +68,15 @@
 					</tr>
 					
 					<tr>
-						<th>우편번호</th>
-						<td><input type="text" name="m_zipCode" id="m_zipCode" value="${memberInfo.m_zipCode}" readOnly></td>
+						<th>주소</th> <!-- 주소기능 동작하게 구현해야함 -->
+						<td><input type="text" name="m_addr" id="m_addr" value="${memberInfo.m_addr}" readOnly>  &nbsp;
+						<input type="button" value="주소찾기" class="input_b" onclick="post_check();" /><br>
+						<input type="text" name="m_addr2" id="m_addr2" value="${memberInfo.m_addr2}"></td>
 					</tr>
 					
 					<tr>
-						<th>주소</th> <!-- 주소기능 동작하게 구현해야함 -->
-						<td><input type="text" name="m_addr" id="m_addr" value="${memberInfo.m_addr}" readOnly>
-						<input type="button" value="주소" class="input_b" onclick="post_check();" /><br>
-						<input type="text" name="m_addr2" id="m_addr2" value="${memberInfo.m_addr2}"></td>
+						<th>우편번호</th>
+						<td><input type="text" name="m_zipCode" id="m_zipCode" value="${memberInfo.m_zipCode}" readOnly></td>
 					</tr>
 					
 					<tr>
@@ -91,47 +84,48 @@
 						<td>${fn:substring(memberInfo.m_regdate,0,10)}</td>
 					</tr>
 					<tr>
-						<td><input type="button" onclick=" return joinCheck()" value="수정">&nbsp;
-							<input type="button" value="탈퇴"></td>
+						<td><input type="button" onclick="openPopup('/myPage/fixCheckPw')"value="수정">&nbsp;
+							<input type="button" onclick="openPopup('/myPage/delCheckPw')"value="탈퇴">
 					</tr>
-					
 			</table>
+			
 		</div>
-	</div>	
+	</div>
+</form>				<!-- 탈퇴시 전송되는 폼 -->
+					<form action="/myPage/deleteMember" method="post" id="deleteMember">
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+						<input type="hidden" name="${memberInfo.m_id}" id="${memberInfo.m_id}" value="${memberInfo.m_id}">
+					</form>
 	<div class="clearfix"></div>
-</form>
 <script>
+
+//탈퇴전 비밀번호 확인 팝업창
+function openPopup(url) {
+    var width = 600; // 팝업 창 가로 크기
+    var height = 400; // 팝업 창 세로 크기
+    var left = (screen.width - width) / 2; // 화면 가운데 정렬을 위한 좌표
+    var top = (screen.height - height) / 2; // 화면 가운데 정렬을 위한 좌표
+
+ // 팝업 창 열기 resizable=no'는 창의 크기 고정
+    window.open(url, '_blank', 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top + ', resizable=no');
+}
+
+//우편검색 창
+function post_check(){
+	$url="/member/zip_find";//매핑주소
+	window.open($url,"우편검색","width=415px,height=190px,"
+			+"scrollbars=yes");
+	//폭이 415 픽셀이고,높이가 190 픽셀,스크롤바가 생성되는
+	//우편번호 검색 공지창을 띄운다.
+} 
+
+
 //모든 폼을 입력했는지 체크하는 함수 joinCheck()
 //비밀번호 정규식 체크
 let pwdType = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
 
 function joinCheck(){
 	
-	if($.trim($("#m_pwd").val())== ""){
-		  alert("비밀번호를 입력하세요!");
-		  $("#m_pwd").val("").focus();
-		  return false;
-	  }
-	  if($.trim($("#m_pwd2").val())== ""){
-		  alert("비밀번호 확인을 입력하세요!");
-		  $("#m_pwd2").val("").focus();
-		  return false;
-	  }
-	  
-	  //비밀번호 검증
-	  if(!pwdType.test(m_pwd2.value)){
-		  alert("비밀번호는 영문자+숫자+특수문자 조합 \n 8이상~12자리 이하로만 사용해야합니다. ");
-		  $("#m_pwd2").val("").focus();
-		  return false;
-	  }
-	  
-	  //비밀번호 일치 테스트
-	 if(m_pwd.value !== m_pwd2.value ){
-		 alert("비밀번호가 일치하지 않습니다!");
-		  $("#m_pwd2").val("").focus();
-		  return false;
-	 }
-	  
 	  // 이름 검증
 	  if($.trim($("#m_name").val())== ""){
 		  alert("이름을 입력하세요!");
@@ -186,7 +180,6 @@ function joinCheck(){
 
 function sendForm(){
 	var formData = {	//여기에 토큰을 넣으면 안됨
-	        "m_pwd": $("#m_pwd").val(),
 	        "m_name": $("#m_name").val(),
 	        "m_birth": $("#m_birth").val(),
 	        "m_email": $("#m_email").val(),

@@ -29,7 +29,16 @@ DROP SEQUENCE bs_order_cash_seq;
 select * from bs_member_roles;
 SELECT * FROM bs_member;
 
+delete  from bs_member where m_id = 'zaq3195';
+
 select * from persistent_logins;
+
+SELECT a.TABLE_NAME, a.COLUMN_NAME, a.CONSTRAINT_NAME, c.SEARCH_CONDITION 
+FROM ALL_CONS_COLUMNS a 
+JOIN ALL_CONSTRAINTS c ON a.CONSTRAINT_NAME = c.CONSTRAINT_NAME
+WHERE c.R_CONSTRAINT_NAME = (SELECT CONSTRAINT_NAME FROM ALL_CONSTRAINTS WHERE TABLE_NAME = 'BS_MEMBER' AND CONSTRAINT_TYPE = 'P' AND R_OWNER = 'YOUR_SCHEMA_NAME');
+
+
 
 --회원 테이블 >>JPA로 만들거라 안만들어도 됨
 create table bs_member(
@@ -107,6 +116,24 @@ CREATE TABLE bs_address(
 CREATE SEQUENCE bs_address_seq
 START WITH 1 INCREMENT BY 1 NOCACHE; --시퀀스1부터시작, 1씩증가, 캐시사용안함
 
+
+--ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+  --우편/주소 테이블(zipcode)
+create table zipcode(
+ no number(38) primary key
+ ,zipcode varchar2(20) --우편번호
+ ,sido varchar2(50) --시도
+ ,gugun varchar2(50) --구군
+ ,gil varchar2(50) --길주소(읍면동)
+ ,bunji varchar2(50) --나머지
+);
+
+select * from zipcode;
+
+insert into zipcode (no,zipcode,sido,gugun,gil,bunji) 
+values(zip_code_seq.nextval,'18415','경기도','화성시','경기대로990','(병점동)');
+
+commit;
 
 --ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 

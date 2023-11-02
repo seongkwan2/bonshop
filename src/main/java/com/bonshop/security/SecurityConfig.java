@@ -57,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        .antMatchers("/admin/**").hasRole("ADMIN")
 	        .antMatchers("/myPage/**").hasAnyRole("USER", "ADMIN")
 	        .antMatchers("/member/login", "/member/sign").not().authenticated()	//로그인 상태일때 접근 금지
+	        .antMatchers("/**").permitAll()
 	        .antMatchers("/member/**").permitAll()
 	        
 	        

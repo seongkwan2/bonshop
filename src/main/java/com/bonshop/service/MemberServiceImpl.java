@@ -48,5 +48,10 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void updateMember(MemberVO m) {
 		this.memberDao.updateMember(m);		
-	}
+	}//회원 정보 수정
+
+	@Override
+	public void deleteById(String id) {
+		this.memberDao.deleteById(id);
+	}//회원 탈퇴
 }

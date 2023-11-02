@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value="/items/*")
 public class ItemsController {
 
-	//아우터
+	//
 	@RequestMapping(value="/outer")
 	public void outer() {
 	}
 	
-	//상의
+	//상의 (타임리프 테스트)
 	@RequestMapping(value="/top")
 	public void top() {
 	}

@@ -18,9 +18,13 @@ public interface MemberRepository extends JpaRepository<MemberVO, String> {
 	public void updatePwd(String pwd,String id); //아이디를 기준으로 암호화 된 임시 비번을 수정		
 	
 	@Modifying //회원 정보 수정
-	@Query("update MemberVO m set m.m_pwd=?1, m.m_name=?2, m.m_birth=?3, m.m_email=?4, m.m_phone=?5,"
-			+" m.m_zipCode=?6, m.m_addr=?7, m.m_addr2=?8 where m.m_id=?9")
-	public void updateMember(String m_pwd, String m_name, String m_birth, String m_email, String m_phone,
+	@Query("update MemberVO m set m.m_name=?1, m.m_birth=?2, m.m_email=?3, m.m_phone=?4,"
+			+" m.m_zipCode=?5, m.m_addr=?6, m.m_addr2=?7 where m.m_id=?8")
+	public void updateMember(String m_name, String m_birth, String m_email, String m_phone,
 			String m_zipCode, String m_addr, String m_addr2, String m_id);
+	
+	@Modifying	//회원 탈퇴
+	@Query("delete from MemberVO m where m.m_id =?1")
+	public void deleteById(String id);
 	
 }

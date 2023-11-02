@@ -19,8 +19,6 @@
 	</properties>
 	<dependencies>
 	
-	
-	
 		<!-- Spring Security의 Taglibs 추가  -->
 		<dependency>
 		    <groupId>org.springframework.security</groupId>

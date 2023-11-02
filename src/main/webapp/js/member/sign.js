@@ -200,7 +200,7 @@ function checkid(){
 
 //우편검색 창
 function post_check(){
-	$url="zip_find";//매핑주소
+	$url="/member/zip_find";//매핑주소
 	window.open($url,"우편검색","width=415px,height=190px,"
 			+"scrollbars=yes");
 	//폭이 415 픽셀이고,높이가 190 픽셀,스크롤바가 생성되는

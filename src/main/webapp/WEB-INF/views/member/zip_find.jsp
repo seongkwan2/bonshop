@@ -20,7 +20,7 @@
 
       var zip = document.postform.post_list.value;		//선택된 주소
       var input_zipCode = zip.substring(0, 5);			//선택된 주소의 우편번호
-      var input_addr = zip.substring(6, (zip.length));  //선택된 주소의 이름
+      var input_addr = zip.substring(5, (zip.length));  //선택된 주소의 이름
 
       opener.document.m.m_zipCode.value = input_zipCode;
       //opener객체는 우편번호 공지창에서 본 회원가입창을 가리킨다. 

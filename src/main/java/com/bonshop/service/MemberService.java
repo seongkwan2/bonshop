@@ -18,5 +18,7 @@ public interface MemberService {
 	MemberVO getMember(String id);
 	//회원 정보 수정
 	void updateMember(MemberVO m);
+	//회원 탈퇴
+	void deleteById(String loginId);
 
 }

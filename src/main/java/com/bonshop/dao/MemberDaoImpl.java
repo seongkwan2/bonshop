@@ -60,13 +60,13 @@ public class MemberDAOImpl implements MemberDAO {
 	//@Transactional을 해줘야 한다.	
 	@Override
 	public void updatePwd(MemberVO m) {
-		System.out.println(" \n 암호화 된 임시 비번을 아이디를 기준으로 수정(JPA) =================>"); 
+		System.out.println(" \n JPA로 암호화 된 임시 비번을 아이디를 기준으로 수정=================>"); 
 		this.memberRepo.updatePwd(m.getM_pwd(), m.getM_id());
 	}//암호화 된 임시비번으로 수정
 
 	@Override
 	public MemberVO getMember(String id) {
-		System.out.println(" \n JPA=====================> 아이디에 대한 회원정보 보기");		
+		System.out.println(" \n =====================> JPA로 아이디에 대한 회원정보 보기");		
 		MemberVO m=this.memberRepo.getReferenceById(id);
 		return m;
 	}//아이디에 해당하는 회원정보 보기
@@ -74,8 +74,21 @@ public class MemberDAOImpl implements MemberDAO {
 	@Transactional
 	@Override
 	public void updateMember(MemberVO m) {
-		System.out.println(" \n ==============================> jpa로 회원정보 수정하기");
-		this.memberRepo.updateMember(m.getM_pwd(), m.getM_name(), m.getM_birth(), m.getM_email(), m.getM_phone(),
+		System.out.println(" \n ==============================> JPA로 회원정보 수정하기");
+		this.memberRepo.updateMember(m.getM_name(), m.getM_birth(), m.getM_email(), m.getM_phone(),
 				m.getM_zipCode(), m.getM_addr(), m.getM_addr2(), m.getM_id());
 	}//회원정보 수정
+
+	@Transactional
+	@Override
+	public void deleteById(String id) {
+		System.out.println(" \n ==============================> JPA로 회원탈퇴 하기");
+		 // 회원 정보 찾기
+        MemberVO memberInfo = memberRepo.findById(id).orElse(null); //orElse(some) 메서드는 Optional에 값이 있으면 그 값을 반환하고, 
+        															//값이 없으면 괄호 안에 주어진 값을 반환
+        if (memberInfo != null) {
+            // 연관된 roles 삭제 (CascadeType.ALL 덕분에 자동으로 삭제됨)
+        	memberRepo.delete(memberInfo);
+        }
+	}//회원 탈퇴
 }

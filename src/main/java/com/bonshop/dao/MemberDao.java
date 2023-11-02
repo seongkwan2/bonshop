@@ -16,6 +16,9 @@ public interface MemberDAO {
 	MemberVO pwdMember(MemberVO m);
 	void updatePwd(MemberVO m);
 	MemberVO getMember(String id);
+	//회원 정보 수정
 	void updateMember(MemberVO m);
+	//회원 탈퇴
+	void deleteById(String id);
 
 }
