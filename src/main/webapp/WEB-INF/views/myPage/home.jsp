@@ -2,6 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="phone" value="${memberInfo.m_phone}" /> <%--전화번호를 010-1111-2222 형식으로 바꿈 --%>
+<c:set var="birth" value="${memberInfo.m_birth}" /> <%--생년월일을 1996-03-07 형식으로 바꿈 --%>
+<c:set var="formattedPhone" value="${fn:substring(phone, 0, 3)}-${fn:substring(phone, 3, 7)}-${fn:substring(phone, 7, 11)}" />
+<c:set var="formattedbirth" value="${fn:substring(birth, 0, 4)}-${fn:substring(birth, 4, 6)}-${fn:substring(birth, 6, 8)}" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,17 +18,12 @@
 <script src="/js/jquery.js"></script>
 <link href="/css/main.css" rel="stylesheet"/>
 <link href="/css/myPage/home.css" rel="stylesheet"/>
-
-<!--알람(alert) 라이브러리-->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<link rel="stylesheet" type="text/css" href="/css/alert.css">
 </head>
 <body>
 <%-- include : main --%>
 <%@ include file="../include/header.jsp" %>
 
 <!-- 수정시 전송되는 폼 -->
-<form action="/myPage/home" method="post" id="fixMember">
 
 	<div class="Mypage">
 		<div class="Mypage_menu">
@@ -35,10 +34,11 @@
 				<li><a href="#">장바구니</a>
 				<li><a href="#">찜한 상품</a>
 				<li><a href="#">상품 문의</a>
+				<li><input type="button" onclick="openPopup('/myPage/checkPw')"value="정보수정 / 회원탈퇴">
 			</ul>
 		</div>
 		<div id="mypage_show">
-			<h1>회 원 정 보 확 인 / 수정</h1>
+			<h1>회 원 정 보 확 인</h1>
 			<table id="mypage_st">
 					<!-- POST를 위한 토큰 -->
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -49,57 +49,44 @@
 					
 					<tr>
 						<th>이름</th>
-						<td><input type="text" name="m_name" id="m_name" value="${memberInfo.m_name}"></td>
+						<td>${memberInfo.m_name}</td>
 					</tr>
 					
 					<tr>
 						<th>생년월일</th>
-						<td><input type="text" name="m_birth" id="m_birth" value="${memberInfo.m_birth}"></td>
+						<td>${formattedbirth}</td>
 					</tr>
 					
 					<tr>
 						<th>이메일</th>
-						<td><input type="text" name="m_email" id="m_email" value="${memberInfo.m_email}"></td>
+						<td>${memberInfo.m_email}</td>
 					</tr>
 					
 					<tr>
 						<th>전화번호</th>
-						<td><input type="text" name="m_phone" id="m_phone" value="${memberInfo.m_phone}"> &nbsp;</td>
+						<td>${formattedPhone}</td>
 					</tr>
 					
 					<tr>
 						<th>주소</th> <!-- 주소기능 동작하게 구현해야함 -->
-						<td><input type="text" name="m_addr" id="m_addr" value="${memberInfo.m_addr}" readOnly>  &nbsp;
-						<input type="button" value="주소찾기" class="input_b" onclick="post_check();" /><br>
-						<input type="text" name="m_addr2" id="m_addr2" value="${memberInfo.m_addr2}"></td>
+						<td>${memberInfo.m_addr}<br>${memberInfo.m_addr2}</td>
 					</tr>
 					
 					<tr>
 						<th>우편번호</th>
-						<td><input type="text" name="m_zipCode" id="m_zipCode" value="${memberInfo.m_zipCode}" readOnly></td>
+						<td>${memberInfo.m_zipCode}</td>
 					</tr>
 					
 					<tr>
 						<th>가입날짜</th>
 						<td>${fn:substring(memberInfo.m_regdate,0,10)}</td>
 					</tr>
-					<tr>
-						<td><input type="button" onclick="openPopup('/myPage/fixCheckPw')"value="수정">&nbsp;
-							<input type="button" onclick="openPopup('/myPage/delCheckPw')"value="탈퇴">
-					</tr>
 			</table>
-			
 		</div>
 	</div>
-</form>				<!-- 탈퇴시 전송되는 폼 -->
-					<form action="/myPage/deleteMember" method="post" id="deleteMember">
-						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-						<input type="hidden" name="${memberInfo.m_id}" id="${memberInfo.m_id}" value="${memberInfo.m_id}">
-					</form>
-	<div class="clearfix"></div>
+	
 <script>
-
-//탈퇴전 비밀번호 확인 팝업창
+//비밀번호 확인 팝업창
 function openPopup(url) {
     var width = 600; // 팝업 창 가로 크기
     var height = 400; // 팝업 창 세로 크기
@@ -110,139 +97,8 @@ function openPopup(url) {
     window.open(url, '_blank', 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top + ', resizable=no');
 }
 
-//우편검색 창
-function post_check(){
-	$url="/member/zip_find";//매핑주소
-	window.open($url,"우편검색","width=415px,height=190px,"
-			+"scrollbars=yes");
-	//폭이 415 픽셀이고,높이가 190 픽셀,스크롤바가 생성되는
-	//우편번호 검색 공지창을 띄운다.
-} 
-
-
-//모든 폼을 입력했는지 체크하는 함수 joinCheck()
-//비밀번호 정규식 체크
-let pwdType = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
-
-function joinCheck(){
-	
-	  // 이름 검증
-	  if($.trim($("#m_name").val())== ""){
-		  alert("이름을 입력하세요!");
-		  $("#m_name").val("").focus();
-		  return false;
-	  }
-	  
-	 // 생년월일 검증
-	    let birthValue = $.trim($("#m_birth").val());
-	    if(!/^[0-9]{8}$/.test(birthValue)){
-	        alert("생년월일은 8자리의 숫자만 입력해야 합니다.");
-	        $("#m_birth").val("").focus();
-	        return false;
-	    }
-
-   	// 전화번호 검증
-	    let phoneValue = $.trim($("#m_phone").val());
-	    if(!/^[0-9]+$/.test(phoneValue)){
-	        alert("전화번호는 숫자만 입력해야 합니다.");
-	        $("#m_phone").val("").focus();
-	        return false;
-    	}
-    
-    	//이메일 검증
-	  if($.trim($("#m_email").val())== ""){
-		  alert("이메일을 입력하세요!");
-		  $("#m_email").val("").focus();
-		  return false;
-	  }
-    	//우편번호
-	  if($.trim($("#m_zipCode").val())== ""){
-		  alert("우편번호를 입력하세요!");
-		  $("#m_zipCode").val("").focus();
-		  return false;
-	  }
-    	//주소
-	  if($.trim($("#m_addr").val())== ""){
-		  alert("주소를 입력하세요!");
-		  $("#m_addr").val("").focus();
-		  return false;
-	  }
-    	//나머지 주소
-	  if($.trim($("#m_addr2").val())== ""){
-		  alert("상세주소를 입력하세요!");
-		  $("#m_addr2").val("").focus();
-		  return false;
-	  }
-      
-      // 모든 조건을 통과하면 form 제출
-      sendForm();
-}
-
-function sendForm(){
-	var formData = {	//여기에 토큰을 넣으면 안됨
-	        "m_name": $("#m_name").val(),
-	        "m_birth": $("#m_birth").val(),
-	        "m_email": $("#m_email").val(),
-	        "m_phone": $("#m_phone").val(),
-	        "m_zipCode": $("#m_zipCode").val(),
-	        "m_addr": $("#m_addr").val(),
-	        "m_addr2": $("#m_addr2").val(),
-	}; //formData
-	
-	// CSRF 토큰을 가져와서 헤더에 추가
-    var csrfToken = $("meta[name='_csrf']").attr("content");
-    var csrfHeader = $("meta[name='_csrf_header']").attr("content");
-	
-	$.ajax({
-	    url:"/myPage/home",
-	    method:"POST",
-	    data:JSON.stringify(formData),
-	    contentType: "application/json",
-	    beforeSend: function(xhr) {	//토큰만 따로 보내는 방식을 선호
-	    	xhr.setRequestHeader(csrfHeader, csrfToken);
-	    },
-		success: function(map) {
-		    console.log("Response from server:", map);
-		    if(map.status === "success") {
-		        Swal.fire({
-		            title: '회원정보가 수정되었습니다.',
-		            text: map.message,  // 서버로부터 받은 메시지 사용
-		            icon: 'success',
-		            confirmButtonText: '확인',
-		            customClass: {
-		                title: 'my-title-class',
-		                content: 'my-content-class'
-		            }
-		        }).then((result) => {
-		            if (result.isConfirmed) {
-		                // 사용자가 확인 버튼을 클릭한 경우
-		                window.location.href = "/";
-		            }
-		        });
-		    } else {
-		        Swal.fire({
-		            title: '회원정보 수정이 취소되었습니다.',
-		            text: map.message,  // 서버로부터 받은 메시지 사용
-		            icon: 'error',
-		            confirmButtonText: '확인',
-		            customClass: {
-		                title: 'my-title-class',
-		                content: 'my-content-class'
-	                }
-	            });
-	        }
-	    },
-	    error: function(jqXHR, textStatus, errorThrown) {
-	        console.error('Error Details:', textStatus, errorThrown);
-	        alert('서버와의 통신 중 오류가 발생했습니다.');
-	    }
-	});//ajax
-
-}//sendForm()
-
-
 </script>
-
+	<div class="clearfix"></div>
 <%-- include : footer --%>
 <%@ include file="../include/footer.jsp" %>
 </body>

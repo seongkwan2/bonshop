@@ -1,12 +1,14 @@
 /*전체 틀의 크기*/
 .Mypage {
-	width: 1800px;
+	width: 1600px;
     margin: 0 auto;
     display: flex;
 }
 
+/*메뉴들*/
 .Mypage_menu {
     margin: 0px 70px 0px 30px;
+    width:	450px;
     font-size: 1em;
 }
 
@@ -38,7 +40,26 @@
 	font-weight: bold;
 	border-bottom: 1px solid #1c2b37;
 }
-/* 개인정보확인페이지 */
+
+/*정보수정/회원탈퇴 버튼*/
+.Mypage_menu input {
+	text-align:left;
+	color: #6b6b6b; display: block;
+	height: 20px; 
+	width: 300px; 
+	padding: 30px 20px 20px 5px;
+	font-size: 18px;
+	border: none;
+	outline: none;
+	background: transparent;
+}
+.Mypage_menu input:hover {
+	font-weight: bold;
+	border-bottom: 1px solid #1c2b37;
+	cursor: pointer;
+}
+
+/* 개인 정보 확인 페이지 */
 #mypage_show {
 	width: 1500px;
 	float: right;

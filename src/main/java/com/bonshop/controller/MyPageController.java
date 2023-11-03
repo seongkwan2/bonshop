@@ -45,32 +45,22 @@ public class MyPageController {
 		return mv;
 	}
 
-	//회원 수정 본인 인증 메서드 
-	@RequestMapping(value="/fixCheckPw")
-	public ModelAndView fixCheckPw(HttpSession session, HttpServletRequest request) throws Exception {
-		System.out.println("fixCheckPw (GET)메서드 동작");
+	//회원 수정 본인 인증 폼
+	@RequestMapping(value="/checkPw", method = RequestMethod.GET)
+	public ModelAndView checkPw(HttpSession session, HttpServletRequest request) throws Exception {
+		System.out.println("checkPw (GET)메서드 동작");
 
 		ModelAndView model = new ModelAndView();
 
 		return model;
 	}
-	
-	//회원 탈퇴 본인 인증 메서드 
-	@RequestMapping(value="/delCheckPw")
-	public ModelAndView delCheckPw(HttpSession session, HttpServletRequest request) throws Exception {
-		System.out.println("delCheckPw (GET)메서드 동작");
-		
-		ModelAndView model = new ModelAndView();
-		
-		return model;
-	}
 
-	//회원 수정
-	@RequestMapping(value="/home", method = RequestMethod.POST)//@RequestBody대신에 한번 테스트로 사용해봄
+	//회원 수정 본인 인증 폼의 기능 동작
+	@RequestMapping(value="/checkPw", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> home(HttpSession session, HttpServletRequest request, Principal principal) throws Exception {
+	public Map<String, Object> checkPw(HttpSession session, HttpServletRequest request, Principal principal) throws Exception {
 		Map<String, Object> map = new HashMap<>();
-		System.out.println("fixCheckPw (POST)메서드 동작");
+		System.out.println("checkPw (POST)메서드 동작");
 
 		//Principal을 이용해서 현재 계정 정보를 가져옴
 		String loginId = principal.getName();
@@ -99,51 +89,37 @@ public class MyPageController {
 		}//if
 		return map;
 	}//home()
-	
-	//회원수정 메서드	//11월03일 회원정보 수정중..
-		@RequestMapping(value="/fixCheckPw", method = RequestMethod.POST)
-		@ResponseBody
-		public ModelAndView fixCheckPw(@RequestBody MemberVO m, Principal principal) {
-			System.out.println("fixCheckPw(POST)메서드 동작");
-			ModelAndView mv = new ModelAndView();
-			this.memberService.updateMember(m);
 
-			return mv;
-		}//delete_id()
-	
-	@RequestMapping(value="/delCheckPw", method = RequestMethod.POST)
-	@ResponseBody  // JSON 형태로 응답하기 위한 어노테이션 추가
-	public Map<String, Object> delCheckPw(HttpSession session, HttpServletRequest request, Principal principal) throws Exception {
-		Map<String, Object> map = new HashMap<>();
-		System.out.println("delCheckPw (POST)메서드 동작");
-		
+	//수정 폼
+	@RequestMapping(value="/fixInfo", method=RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView fixInfo(Principal principal) {
+		System.out.println("fixInfo(get) 메서드 동작");
+		ModelAndView mv = new ModelAndView();
+
 		//Principal을 이용해서 현재 계정 정보를 가져옴
 		String loginId = principal.getName();
 		MemberVO memberInfo = memberService.findById(loginId);
-		
-		if(memberInfo == null) {
-			map.put("status", "error");
-			map.put("message", "로그인 이후 이용 가능합니다!");
-			return map;
-		}
-		
-		String mPwd = request.getParameter("mPwd");
-		System.out.println("암호화 전: "+mPwd);
-		
-		if(mPwd != null) {//사용자에게 값을 입력 받은 뒤
-			String encodedPwd = passwordEncoder.encode(mPwd);
-			System.out.println("암호화 후: "+encodedPwd);
-			if(passwordEncoder.matches(mPwd, memberInfo.getM_pwd())) {//matches메서드로 원래의 비밀번호와 암호화된 비밀번호를 비교해줌
-				System.out.println("인증 완료");
-				map.put("authSuccess", true);
-			} else {
-				System.out.println("인증 실패");
-				map.put("authSuccess", false);
-			}
-			return map;
-		}//if
+
+		// 추출한 MemberVO 객체를 ModelAndView 객체에 추가
+		mv.addObject("memberInfo", memberInfo);
+
+		return mv;
+	}
+
+	//수정 폼의 기능
+	@RequestMapping(value="/fixInfo", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> fixInfo(@RequestBody MemberVO memberInfo, Principal principal) {
+		Map<String, Object> map = new HashMap<>();
+
+		this.memberService.updateMember(memberInfo); //클라이언트에게 입력받은 정보로 업데이트
+
+		map.put("memberInfo", memberInfo);
+		map.put("status", "success");
+
 		return map;
-	}//delCheckPw()
+	}
 
 	//회원탈퇴 메서드
 	@RequestMapping(value="/deleteMember", method = RequestMethod.POST)

@@ -17,7 +17,7 @@
 <body>
     <h2>본인 인증</h2>
     <hr>
-    <form action="/myPage/home" method="post">
+    <form action="/myPage/checkPw" method="post">
     <div class="form-group">
         <label for="mPwd">비밀번호:</label>
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -37,7 +37,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "/myPage/home",
+                url: "/myPage/checkPw",		//비밀번호를 컨트롤러에 보내고 확인을 받고 여기서 페이지를 이동
                 beforeSend: function(xhr){
                     xhr.setRequestHeader(header, token);
                    },
@@ -47,7 +47,8 @@
 
                     if (map.authSuccess) {
                     	alert("본인 확인 되었습니다.");
-                        submitMainForm();
+                    	 window.opener.location.href = "/myPage/fixInfo";  //부모창의 페이지를 이동시키는 opener
+                    	 window.close();
                     } else {
                         alert("비밀번호 인증에 실패했습니다.");
                     }
