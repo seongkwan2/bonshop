@@ -113,13 +113,21 @@ public class MyPageController {
 	public Map<String, Object> fixInfo(@RequestBody MemberVO memberInfo, Principal principal) {
 		Map<String, Object> map = new HashMap<>();
 
+		//ID값은 직접 지정함
+		String loginId = principal.getName();
+		memberInfo.setM_id(loginId);
 		this.memberService.updateMember(memberInfo); //클라이언트에게 입력받은 정보로 업데이트
+		
 
 		map.put("memberInfo", memberInfo);
 		map.put("status", "success");
 
 		return map;
 	}
+	
+	//비밀번호 변경
+	@RequestMapping(value="/pwChange")
+	public void pwChange() {}
 
 	//회원탈퇴 메서드
 	@RequestMapping(value="/deleteMember", method = RequestMethod.POST)
@@ -129,10 +137,27 @@ public class MyPageController {
 		String loginId = principal.getName();
 		this.memberService.deleteById(loginId);
 
-		mv.setViewName("redirect:/member/logout"); // 로그아웃 처리 후 메인 페이지로 리다이렉트
+		mv.setViewName("redirect:/myPage/delMember"); // 로그아웃 처리 후 메인 페이지로 리다이렉트
 		return mv;
 	}//delete_id()
-
+	
+	//회원탈퇴완료 페이지
+	@RequestMapping(value="/delMember")
+	public void delMember() {}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
 
 

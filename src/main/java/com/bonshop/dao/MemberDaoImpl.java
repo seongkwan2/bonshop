@@ -71,7 +71,7 @@ public class MemberDAOImpl implements MemberDAO {
 		return m;
 	}//아이디에 해당하는 회원정보 보기
 
-	@Transactional	//11월3일 개인정보 수정을 좀더 보완해야함 로그에는 메서드가 동작하는데 DB에는 적용이 안되고있음
+	@Transactional
 	@Override
 	public void updateMember(MemberVO m) {
 		System.out.println(" \n ==============================> JPA로 회원정보 수정하기");

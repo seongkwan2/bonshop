@@ -1,7 +1,6 @@
 package com.boshop.Handler;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,15 +15,9 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
         
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        
-        out.print("<script>");
-        out.print("alert('로그아웃 되었습니다.');");
-        out.print("location.href='/';");
-        out.print("</script>");
-        
-        out.flush();
+        // 서버 측에서 바로 로그인 페이지로 리다이렉트
+        response.sendRedirect(request.getContextPath() + "/member/login");
     }
 }
+
 

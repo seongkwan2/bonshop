@@ -1,0 +1,17 @@
+#mypage_st {
+}
+
+.form-group {
+    margin-bottom: 10px; /* 각 입력 필드의 간격을 조정 */
+}
+
+.form-group label {
+    display: block; /* 레이블을 블록 요소로 만들어 줄바꿈 */
+    margin-bottom: 5px; /* 레이블과 입력 필드 사이의 간격 조정 */
+}
+
+.form-group input[type="password"],
+.form-group input[type="button"] {
+    width: 100%; /* 입력 필드의 너비를 조정 */
+    padding: 5px; /* 입력 필드 내부의 여백을 조정 */
+}

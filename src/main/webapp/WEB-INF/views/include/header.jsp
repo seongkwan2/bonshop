@@ -30,6 +30,8 @@
 	        <form action="/myPage/home" method="get">
 	            <input type="submit" value="마이페이지"/>
 	        </form>
+	        
+	    <!-- 로그아웃 요청시 보내는 폼 -->
 			<form action="/member/logout" method="post">
 	        	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> <!-- POST로 보낼땐 토큰도 보냄 -->
 	        	<input type="submit" value="로그아웃"/>

@@ -77,10 +77,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        //.permitAll();					//로그인 페이지는 누구나 접근가능하지만 이걸 활성화 시키면 로그인상태에서도 로그인폼이 가져서 비활성화 
         
 	    // 로그아웃 설정
-	    http.logout()
-	        .logoutUrl("/member/logout")
+	    http.logout()	// 로그아웃 기능 작동함
+	        .logoutUrl("/member/logout")	//URL매핑
 	        .logoutSuccessHandler(new CustomLogoutSuccessHandler())	//로그아웃 핸들러
-	        .invalidateHttpSession(true);
+	        .deleteCookies("JSESSIONID", "remember-me") // 로그아웃 후 쿠키 삭제
+	        .invalidateHttpSession(true)
+	    	.permitAll();
 
 	    // 로그인 상태 유지를 위한 remember-Me 설정
 	    http.rememberMe()

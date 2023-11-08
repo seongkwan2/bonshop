@@ -84,11 +84,10 @@
 						<th>가입날짜</th>
 						<td>${fn:substring(memberInfo.m_regdate,0,10)}</td>
 					</tr>
-					<tr>
-						<td><input type="button" onclick="joinCheck()" value="정보수정">&nbsp;
+					</table>
+							<input type="button" onclick="pwChange()" value="비밀번호 변경">&nbsp;
+							<input type="button" onclick="joinCheck()" value="정보수정">&nbsp;
 							<input type="button" onclick="deleteMember()"value="회원탈퇴">
-					</tr>
-			</table>
 			
 		</div>
 	</div>
@@ -99,6 +98,11 @@
 					</form>
 	<div class="clearfix"></div>
 <script>
+//비밀번호 변경을 눌렀을시
+function pwChange(){
+	window.location.href = '/myPage/pwChange';
+}
+
 //탈퇴 버튼을 눌렀을때 폼이 전송되는 함수
 function deleteMember(){
 	alert("정말 탈퇴하시겠습니까?");
@@ -205,7 +209,7 @@ function sendForm(){
 		    if(map.status === "success") {
 		        Swal.fire({
 		            title: '회원정보가 수정되었습니다.',
-		            text: map.message,  // 서버로부터 받은 메시지 사용
+		            text: map.message,  //컨트롤러의 fixInfo에서 받은 응답표시
 		            icon: 'success',
 		            confirmButtonText: '확인',
 		            customClass: {
